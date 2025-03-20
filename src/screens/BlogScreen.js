@@ -15,7 +15,9 @@ import LinearGradient from 'react-native-linear-gradient';
 import blogData from '../components/blogData';
 import { ChevronLeftIcon } from 'react-native-heroicons/outline';
 
-const fontK2DRegular = 'K2D-Regular';
+const fontKarlaRegular = 'Karla-Regular';
+const fontKarlaLight = 'Karla-Light';
+const fontKarlaExtraLight = 'Karla-ExtraLight';
 
 const BlogScreen = ({ }) => {
   const [dimensions, setDimensions] = useState(Dimensions.get('window'));
@@ -52,45 +54,12 @@ const BlogScreen = ({ }) => {
         }} contentContainerStyle={{
           paddingBottom: dimensions.height * 0.16,
         }} showsVerticalScrollIndicator={false}>
-          <View style={{ marginTop: dimensions.height * 0.1 }}></View>
-          <View style={{
-            width: dimensions.width * 0.9,
-            paddingTop: dimensions.height * 0.01,
-            height: dimensions.height * 0.07,
-            borderRadius: dimensions.width * 0.031,
-            backgroundColor: '#39383D',
-            alignSelf: 'center',
-            alignItems: 'center',
-            justifyContent: 'center',
-            shadowColor: '#CCA65A',
-            shadowOffset: {
-              width: 0,
-              height: -dimensions.height * 0.0021,
-            },
-            shadowOpacity: 1,
-            shadowRadius: dimensions.width * 0.001,
-            elevation: 5,
-            marginBottom: dimensions.height * 0.01,
-          }}>
-            <Text
-              style={{
-                fontFamily: fontK2DRegular,
-                color: 'white',
-                fontSize: dimensions.width * 0.064,
-                textAlign: 'center',
-                alignSelf: 'center',
-                fontWeight: 600,
-                marginBottom: dimensions.height * 0.01,
-              }}>
-              Blog
-            </Text>
-          </View>
           {blogData.map((blog, index) => (
             <View key={blog.id} style={{
               width: dimensions.width * 0.9,
               alignSelf: 'center',
               borderRadius: dimensions.width * 0.04,
-              backgroundColor: '#39383D',
+              backgroundColor: '#181818',
               marginTop: dimensions.height * 0.021,
               shadowColor: '#111',
               shadowOffset: {
@@ -100,17 +69,9 @@ const BlogScreen = ({ }) => {
               shadowOpacity: 0.88,
               shadowRadius: dimensions.width * 0.03,
               elevation: 5,
+              borderColor: 'white',
+              borderWidth: dimensions.width * 0.003,
             }}>
-              <Image
-                source={blog?.image}
-                style={{
-                  width: '100%',
-                  height: dimensions.height * 0.21,
-                  borderTopLeftRadius: dimensions.width * 0.04,
-                  borderTopRightRadius: dimensions.width * 0.04,
-                }}
-                resizeMode="stretch"
-              />
 
               <View style={{
                 alignItems: 'center',
@@ -119,14 +80,14 @@ const BlogScreen = ({ }) => {
               }}>
                 <Text
                   style={{
-                    fontFamily: fontK2DRegular,
+                    fontSize: dimensions.width * 0.052,
                     textAlign: "left",
-                    fontSize: dimensions.width * 0.05,
+                    justifyContent: 'center',
                     alignSelf: 'flex-start',
                     fontWeight: 600,
-                    color: '#CCA65A',
+                    color: 'white',
                     alignItems: 'center',
-                    justifyContent: 'center',
+                    fontFamily: fontKarlaRegular,
                   }}
                 >
                   {blog?.title}
@@ -134,12 +95,11 @@ const BlogScreen = ({ }) => {
 
                 <Text
                   style={{
-                    fontFamily: fontK2DRegular,
+                    fontFamily: fontKarlaExtraLight,
                     textAlign: "left",
-                    fontSize: dimensions.width * 0.039,
+                    fontSize: dimensions.width * 0.048,
                     alignSelf: 'flex-start',
-                    fontWeight: 400,
-                    color: '#C6C6C6',
+                    color: 'white',
                     alignItems: 'center',
                     justifyContent: 'center',
                     maxWidth: dimensions.width * 0.8,
@@ -157,7 +117,6 @@ const BlogScreen = ({ }) => {
                   alignItems: 'center',
                   alignSelf: 'center',
                   marginTop: dimensions.height * 0.025,
-                  marginBottom: dimensions.height * 0.028,
                 }}>
                   <TouchableOpacity
                     onPress={() => {
@@ -166,15 +125,14 @@ const BlogScreen = ({ }) => {
                     }}
                     style={{
                       alignSelf: 'center',
-                      width: dimensions.width * 0.61,
                     }}
                   >
                     <LinearGradient
-                      colors={['#CCA65A', '#FDFADD']}
+                      colors={['#FFF0B5', '#FDCC06']}
                       start={{ x: 0, y: 0.5 }}
                       end={{ x: 1, y: 0.5 }}
                       style={{
-                        width: dimensions.width * 0.61,
+                        width: dimensions.width * 0.43,
                         height: dimensions.height * 0.066,
                         alignSelf: 'center',
                         borderRadius: dimensions.width * 0.037,
@@ -185,13 +143,13 @@ const BlogScreen = ({ }) => {
                     >
                       <Text
                         style={{
-                          fontFamily: fontK2DRegular,
+                          fontFamily: fontKarlaRegular,
                           color: 'black',
                           fontSize: dimensions.width * 0.043,
                           textAlign: 'center',
                           fontWeight: 600
                         }}>
-                        Read Now
+                        Read
                       </Text>
                     </LinearGradient>
                   </TouchableOpacity>
@@ -205,7 +163,7 @@ const BlogScreen = ({ }) => {
                       padding: dimensions.width * 0.04,
                       width: dimensions.width * 0.14,
                       height: dimensions.width * 0.14,
-                      backgroundColor: '#2F2E31',
+                      backgroundColor: 'transparent',
                       borderRadius: dimensions.width * 0.035,
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -217,6 +175,8 @@ const BlogScreen = ({ }) => {
                       shadowOpacity: 0.3,
                       shadowRadius: dimensions.width * 0.0005,
                       elevation: 5,
+                      borderColor: 'white',
+                      borderWidth: dimensions.width * 0.003,
                     }}>
                     <Image
                       source={require('../assets/icons/whiteShareCulinaryIcon.png')}
@@ -234,20 +194,20 @@ const BlogScreen = ({ }) => {
           ))}
         </ScrollView>
       ) : (
-        <ScrollView ref={scrollViewRef}  style={{
+        <ScrollView ref={scrollViewRef} style={{
           width: dimensions.width * 0.9,
           alignSelf: 'center',
         }} contentContainerStyle={{
           paddingBottom: dimensions.height * 0.16,
         }} showsVerticalScrollIndicator={false}>
-          <View style={{ marginTop: dimensions.height * 0.1 }}></View>
           <View style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
             width: dimensions.width * 0.9,
             alignSelf: 'center',
             alignItems: 'center',
-            justifyContent: 'center',
+            justifyContent: 'flex-start',
+            marginVertical: dimensions.height * 0.03
           }}>
             <TouchableOpacity
               onPress={() => {
@@ -255,78 +215,47 @@ const BlogScreen = ({ }) => {
                 setIsBlogOpened(false);
               }}
               style={{
-                width: dimensions.height * 0.07,
-                marginRight: dimensions.width * 0.04,
-                height: dimensions.height * 0.07,
-                paddingTop: dimensions.height * 0.01,
-                borderRadius: dimensions.width * 0.031,
-                backgroundColor: '#39383D',
-                alignSelf: 'center',
+                alignSelf: 'flex-start',
+                flexDirection: 'row',
                 alignItems: 'center',
-                justifyContent: 'center',
-                shadowColor: '#CCA65A',
-                shadowOffset: {
-                  width: 0,
-                  height: -dimensions.height * 0.0021,
-                },
-                shadowOpacity: 1,
-                shadowRadius: dimensions.width * 0.001,
-                elevation: 5,
-                marginBottom: dimensions.height * 0.01,
+                justifyContent: 'center'
               }}>
-              <ChevronLeftIcon size={dimensions.width * 0.1} color='#CCA65A' />
-            </TouchableOpacity>
-
-            <View style={{
-              flex: 1,
-              height: dimensions.height * 0.07,
-              paddingTop: dimensions.height * 0.01,
-              borderRadius: dimensions.width * 0.031,
-              backgroundColor: '#39383D',
-              alignSelf: 'center',
-              alignItems: 'center',
-              justifyContent: 'center',
-              shadowColor: '#CCA65A',
-              shadowOffset: {
-                width: 0,
-                height: -dimensions.height * 0.0021,
-              },
-              shadowOpacity: 1,
-              shadowRadius: dimensions.width * 0.001,
-              elevation: 5,
-              marginBottom: dimensions.height * 0.014,
-              paddingHorizontal: dimensions.width * 0.05
-            }}>
+              <ChevronLeftIcon size={dimensions.height * 0.025} color='#FDCC06' />
               <Text
                 style={{
-                  fontFamily: fontK2DRegular,
-                  color: 'white',
-                  fontSize: dimensions.width * 0.064,
-                  textAlign: 'left',
+                  fontFamily: fontKarlaLight,
+                  textAlign: "left",
+                  fontSize: dimensions.width * 0.043,
                   alignSelf: 'flex-start',
-                  fontWeight: 600,
-                  paddingBottom: dimensions.height * 0.01
-                }}>
-                Reading:
+                  color: 'white',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                Blog /
               </Text>
-            </View>
+            </TouchableOpacity>
+            <Text
+              style={{
+                fontFamily: fontKarlaLight,
+                textAlign: "left",
+                fontSize: dimensions.width * 0.043,
+                alignSelf: 'flex-start',
+                color: '#FDCC06',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              {' '}Reading
+            </Text>
+
           </View>
-          <Image
-            source={selectedCulinaryBlog?.image}
-            style={{
-              width: dimensions.width * 0.9,
-              height: dimensions.height * 0.21,
-              borderRadius: dimensions.width * 0.04,
-            }}
-            resizeMode="stretch"
-          />
 
           <Text
             style={{
-              fontFamily: fontK2DRegular,
+              fontFamily: fontKarlaRegular,
               textAlign: "left",
               fontSize: dimensions.width * 0.055,
-              marginTop: dimensions.height * 0.021,
               alignSelf: 'flex-start',
               fontWeight: 600,
               color: 'white',
@@ -336,15 +265,32 @@ const BlogScreen = ({ }) => {
           >
             {selectedCulinaryBlog?.title}
           </Text>
+
           <Text
             style={{
-              fontFamily: fontK2DRegular,
+              fontFamily: fontKarlaLight,
+              textAlign: "left",
+              fontSize: dimensions.width * 0.04,
+              alignSelf: 'flex-start',
+              color: 'white',
+              alignItems: 'center',
+              justifyContent: 'center',
+              maxWidth: dimensions.width * 0.8,
+              marginVertical: dimensions.height * 0.019
+            }}
+          >
+            {selectedCulinaryBlog?.time}
+          </Text>
+
+          <Text
+            style={{
+              fontFamily: fontKarlaRegular,
               textAlign: "left",
               fontSize: dimensions.width * 0.043,
               marginTop: dimensions.height * 0.01,
               alignSelf: 'flex-start',
               fontWeight: 400,
-              color: '#C6C6C6',
+              color: 'white',
               alignItems: 'center',
               justifyContent: 'center',
               maxWidth: dimensions.width * 0.8,
@@ -354,84 +300,57 @@ const BlogScreen = ({ }) => {
           >
             {selectedCulinaryBlog?.text}
           </Text>
-          <View style={{
-            width: '100%',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            alignSelf: 'center',
-            marginTop: dimensions.height * 0.025,
-          }}>
-            <TouchableOpacity
-              onPress={() => {
-                setSelectedCulinaryBlog(null);
-                setIsBlogOpened(false);
-              }}
-              style={{
-                alignSelf: 'center',
-                width: dimensions.width * 0.7,
-              }}
-            >
-              <LinearGradient
-                colors={['#CCA65A', '#FDFADD']}
-                start={{ x: 0, y: 0.5 }}
-                end={{ x: 1, y: 0.5 }}
-                style={{
-                  width: dimensions.width * 0.7,
-                  height: dimensions.height * 0.066,
-                  alignSelf: 'center',
-                  borderRadius: dimensions.width * 0.037,
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <Text
-                  style={{
-                    fontFamily: fontK2DRegular,
-                    color: 'black',
-                    fontSize: dimensions.width * 0.043,
-                    textAlign: 'center',
-                    fontWeight: 600
-                  }}>
-                  Back Home
-                </Text>
-              </LinearGradient>
-            </TouchableOpacity>
 
+          <Text
+            style={{
+              fontFamily: fontKarlaLight,
+              textAlign: "left",
+              fontSize: dimensions.width * 0.04,
+              alignSelf: 'flex-start',
+              color: '#FDCC06',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginVertical: dimensions.height * 0.023
+            }}
+          >
+            {selectedCulinaryBlog?.mustVisit}
+          </Text>
 
-            <TouchableOpacity
-              onPress={() => {
-                shareCulinaryBlog(blog?.title)
-              }}
+          <TouchableOpacity
+            onPress={() => {
+              shareCulinaryBlog(blog?.title)
+            }}
+            style={{
+              padding: dimensions.width * 0.04,
+              width: dimensions.width * 0.14,
+              height: dimensions.width * 0.14,
+              backgroundColor: 'transparent',
+              borderRadius: dimensions.width * 0.035,
+              alignItems: 'center',
+              justifyContent: 'center',
+              shadowColor: '#111',
+              shadowOffset: {
+                width: 0,
+                height: dimensions.height * 0.004,
+              },
+              shadowOpacity: 0.3,
+              shadowRadius: dimensions.width * 0.0005,
+              elevation: 5,
+              alignSelf: 'flex-start',
+              borderColor: 'white',
+              borderWidth: dimensions.width * 0.003,
+
+            }}>
+            <Image
+              source={require('../assets/icons/whiteShareCulinaryIcon.png')}
               style={{
-                padding: dimensions.width * 0.04,
-                width: dimensions.width * 0.14,
-                height: dimensions.width * 0.14,
-                backgroundColor: '#39383D',
-                borderRadius: dimensions.width * 0.035,
-                alignItems: 'center',
-                justifyContent: 'center',
-                shadowColor: '#111',
-                shadowOffset: {
-                  width: 0,
-                  height: dimensions.height * 0.004,
-                },
-                shadowOpacity: 0.3,
-                shadowRadius: dimensions.width * 0.0005,
-                elevation: 5,
-              }}>
-              <Image
-                source={require('../assets/icons/whiteShareCulinaryIcon.png')}
-                style={{
-                  width: dimensions.width * 0.055,
-                  height: dimensions.width * 0.055,
-                  textAlign: 'center',
-                }}
-                resizeMode="contain"
-              />
-            </TouchableOpacity>
-          </View>
+                width: dimensions.width * 0.055,
+                height: dimensions.width * 0.055,
+                textAlign: 'center',
+              }}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
         </ScrollView>
       )}
     </SafeAreaView >

@@ -15,62 +15,79 @@ import LinearGradient from 'react-native-linear-gradient';
 import FavouritesScreen from './FavouritesScreen';
 import CulinaryMapScreen from './CulinaryMapScreen';
 
-import modernFusionData from '../components/modernFusionData';
-import herritageFlavorsData from '../components/herritageFlavorsData';
-import coastalBitesData from '../components/coastalBitesData';
-import hiddenGemsData from '../components/hiddenGemsData';
+import mysticWondersData from '../components/mysticWondersData';
+import goldenHeritageData from '../components/goldenHeritageData';
+import sunsetSerenityData from '../components/sunsetSerenityData';
+import localDelightsData from '../components/localDelightsData';
 import Loader from '../components/Loader';
 import Top5RatingScreen from './Top5RatingScreen';
 import BlogScreen from './BlogScreen';
 
-const fontK2DRegular = 'K2D-Regular';
+const fontKarlaRegular = 'Karla-Regular';
+const fontKarlaLight = 'Karla-Light';
+const fontKarlaExtraLight = 'Karla-ExtraLight';
 
 const bottomBtns = [
   {
-    id: 1,
-    screen: 'Home',
-    whiteCulinaryIcon: require('../assets/icons/whiteCulinaryButtons/homeCulinaryIcon.png'),
-    goldCulinaryIcon: require('../assets/icons/goldCulinaryButtons/homeCulinaryIcon.png'),
-  },
-  {
-    id: 2,
-    screen: 'Blog',
-    whiteCulinaryIcon: require('../assets/icons/whiteCulinaryButtons/bookCulinaryIcon.png'),
-    goldCulinaryIcon: require('../assets/icons/goldCulinaryButtons/bookCulinaryIcon.png'),
+    id: 4,
+    screen: 'Favourites',
+    whiteCulinaryIcon: require('../assets/icons/inappIcons/savedIcon.png'),
+    goldCulinaryIcon: require('../assets/icons/blackInappIcons/savedIcon.png'),
   },
   {
     id: 3,
     screen: 'CulinaryMap',
-    whiteCulinaryIcon: require('../assets/icons/whiteCulinaryButtons/mapCulinaryIcon.png'),
-    goldCulinaryIcon: require('../assets/icons/goldCulinaryButtons/mapCulinaryIcon.png'),
+    whiteCulinaryIcon: require('../assets/icons/inappIcons/mapIcon.png'),
+    goldCulinaryIcon: require('../assets/icons/blackInappIcons/mapIcon.png'),
   },
   {
-    id: 4,
-    screen: 'Favourites',
-    whiteCulinaryIcon: require('../assets/icons/whiteCulinaryButtons/favouritesCulinaryIcon.png'),
-    goldCulinaryIcon: require('../assets/icons/goldCulinaryButtons/favouritesCulinaryIcon.png'),
+    id: 1,
+    screen: 'Home',
+    whiteCulinaryIcon: require('../assets/icons/inappIcons/starIcon.png'),
+    goldCulinaryIcon: require('../assets/icons/blackInappIcons/starIcon.png'),
+  },
+
+  {
+    id: 2,
+    screen: 'Blog',
+    whiteCulinaryIcon: require('../assets/icons/inappIcons/blogIcon.png'),
+    goldCulinaryIcon: require('../assets/icons/blackInappIcons/blogIcon.png'),
   },
   {
     id: 5,
     screen: 'Top5Restaurants',
-    whiteCulinaryIcon: require('../assets/icons/whiteCulinaryButtons/starCulinaryIcon.png'),
-    goldCulinaryIcon: require('../assets/icons/goldCulinaryButtons/starCulinaryIcon.png'),
+    whiteCulinaryIcon: require('../assets/icons/inappIcons/galeryIcon.png'),
+    goldCulinaryIcon: require('../assets/icons/blackInappIcons/galeryIcon.png'),
   },
 ]
 
-const categoriesData = [
-  { id: 1, label: 'Modern Fusion' },
-  { id: 2, label: 'Heritage Flavors' },
-  { id: 3, label: 'Coastal Bites' },
-  { id: 4, label: 'Hidden Gems' },
-];
-
-const appLink = '';
+const categoryButtons = [
+  {
+    id: 1,
+    title: 'Golden Heritage',
+    image: require('../assets/images/categoryImages/catImg1.png'),
+  },
+  {
+    id: 2,
+    title: 'Mystic Wonders',
+    image: require('../assets/images/categoryImages/catImg2.png'),
+  },
+  {
+    id: 3,
+    title: 'Sunset Serenity',
+    image: require('../assets/images/categoryImages/catImg3.png'),
+  },
+  {
+    id: 4,
+    title: 'Local Delights',
+    image: require('../assets/images/categoryImages/catImg4.png'),
+  },
+]
 
 const HomeScreen = () => {
   const [dimensions, setDimensions] = useState(Dimensions.get('window'));
   const [selectedCulinaryScreen, setSelectedCulinaryScreen] = useState('Home');
-  const [selectedCategory, setSelectedCategory] = useState(categoriesData[1]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [savedCulinaryRestaurats, setSavedCulinaryRestaurats] = useState([]);
   const [isCulinaryMapRestaurantVisible, setIsCulinaryMapRestaurantVisible] = useState(false);
   const [generatedCulinaryRestaurant, setGeneratedCulinaryRestaurant] = useState(null);
@@ -92,22 +109,22 @@ const HomeScreen = () => {
     loadCulinaryRestaurats();
   }, []);
 
-  const getRestsDataByCategory = (activityCtgr) => {
+  const getShineDataByCategory = (activityCtgr) => {
     switch (activityCtgr) {
-      case 'Modern Fusion':
-        return modernFusionData;
-      case 'Heritage Flavors':
-        return herritageFlavorsData;
-      case 'Coastal Bites':
-        return coastalBitesData;
-      case 'Hidden Gems':
-        return hiddenGemsData;
+      case 'Golden Heritage':
+        return goldenHeritageData;
+      case 'Mystic Wonders':
+        return mysticWondersData;
+      case 'Sunset Serenity':
+        return sunsetSerenityData;
+      case 'Local Delights':
+        return localDelightsData;
       default:
         return [];
     }
   };
 
-  const restaurantsData = getRestsDataByCategory(selectedCategory.label);
+  const shinesData = getShineDataByCategory(selectedCategory?.title);
 
   const isCulinaryRestaurantSaved = (thisRest) => {
     return savedCulinaryRestaurats.some((kn) => kn.id === thisRest?.id);
@@ -138,8 +155,8 @@ const HomeScreen = () => {
 
   const handleGenerateRestaurant = () => {
     setIsGenerating(true);
-    const randomIndex = Math.floor(Math.random() * restaurantsData.length);
-    const randomRest = restaurantsData[randomIndex];
+    const randomIndex = Math.floor(Math.random() * shinesData.length);
+    const randomRest = shinesData[randomIndex];
     setGeneratedCulinaryRestaurant(randomRest);
     setSelectedCulinaryRestaurat(randomRest);
     setTimeout(() => {
@@ -168,10 +185,6 @@ const HomeScreen = () => {
   };
 
   useEffect(() => {
-    setSelectedCategory(categoriesData[1]);
-  }, [selectedCulinaryScreen, generatedCulinaryRestaurant]);
-
-  useEffect(() => {
     const interval = setInterval(() => {
       setCulinaryDots(prevDots => (prevDots.length < 3 ? prevDots + '.' : ''));
     }, 250);
@@ -185,55 +198,91 @@ const HomeScreen = () => {
 
   return (
     <View style={{
-      backgroundColor: '#2F2E31',
+      backgroundColor: '#171717',
       flex: 1,
       height: dimensions.height,
       width: dimensions.width,
     }}>
-      <View
-        style={{
-          top: dimensions.height * 0.07,
-          backgroundColor: '#39383D',
-          height: dimensions.height * 0.08,
-          width: dimensions.width * 0.9,
-          paddingHorizontal: dimensions.width * 0.03,
-          borderRadius: dimensions.width * 0.025,
-          flexDirection: 'row',
-          justifyContent: 'space-between',
+      <View style={{
+        width: dimensions.width,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        alignSelf: 'center',
+        backgroundColor: '#0C0C0C',
+        borderBottomLeftRadius: dimensions.width * 0.05,
+        borderBottomRightRadius: dimensions.width * 0.05,
+        height: dimensions.height * 0.143,
+        shadowColor: '#FDCC06',
+        shadowOffset: { width: 0, height: dimensions.height * 0.0019 },
+        shadowOpacity: 1,
+        shadowRadius: dimensions.height * 0.0001,
+        paddingHorizontal: dimensions.width * 0.05,
+        paddingTop: dimensions.height * 0.04,
+      }}>
+        <TouchableOpacity style={{
+          width: dimensions.width * 0.143,
+          height: dimensions.width * 0.143,
+          borderRadius: dimensions.width * 0.04,
           alignItems: 'center',
-          alignSelf: 'center',
-          paddingVertical: dimensions.height * 0.007,
-          zIndex: 5000,
-          shadowColor: '#000',
-          shadowOffset: {
-            width: 0,
-            height: 3,
-          },
-          shadowOpacity: 0.28,
-          shadowRadius: 5,
-          elevation: 3,
-        }}
-      >
-        {bottomBtns.map((button, index) => (
-          <TouchableOpacity
-            key={button.id}
-            onPress={() => setSelectedCulinaryScreen(button.screen)}
+          justifyContent: 'center',
+          backgroundColor: setSelectedCulinaryScreen === 'WelcomePage' ? '#FDCC06' : 'transparent',
+          borderColor: 'white',
+          borderWidth: setSelectedCulinaryScreen !== 'Quiz' ? dimensions.width * 0.003 : 0,
+        }}>
+          <Image
+            source={setSelectedCulinaryScreen === 'WelcomePage'
+              ? require('../assets/icons/blackInappIcons/homeIcon.png')
+              : require('../assets/icons/inappIcons/homeIcon.png')
+            }
             style={{
-              paddingHorizontal: dimensions.height * 0.014,
-              alignItems: 'center',
+              width: dimensions.width * 0.061,
+              height: dimensions.width * 0.061,
+              alignSelf: 'center',
             }}
-          >
-            <Image
-              source={selectedCulinaryScreen === button.screen ? button.goldCulinaryIcon : button.whiteCulinaryIcon}
-              style={{
-                width: dimensions.height * 0.034,
-                height: dimensions.height * 0.034,
-                textAlign: 'center'
-              }}
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
-        ))}
+            resizeMode='contain'
+          />
+
+        </TouchableOpacity>
+
+        <Text
+          style={{
+            marginTop: dimensions.height * 0.007,
+            fontSize: dimensions.width * 0.059,
+            fontFamily: fontKarlaRegular,
+            fontWeight: 600,
+            color: 'white',
+            textAlign: 'center',
+            alignSelf: 'center',
+            flex: 1,
+            alignSelf: 'center',
+          }}>
+          Welcome Page
+        </Text>
+
+        <TouchableOpacity style={{
+          width: dimensions.width * 0.143,
+          height: dimensions.width * 0.143,
+          borderRadius: dimensions.width * 0.04,
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: setSelectedCulinaryScreen === 'Quiz' ? '#FDCC06' : 'transparent',
+          borderColor: 'white',
+          borderWidth: setSelectedCulinaryScreen !== 'Quiz' ? dimensions.width * 0.003 : 0,
+        }}>
+          <Image
+            source={setSelectedCulinaryScreen === 'WelcomePage'
+              ? require('../assets/icons/blackInappIcons/quizIcon.png')
+              : require('../assets/icons/inappIcons/quizIcon.png')
+            }
+            style={{
+              width: dimensions.width * 0.061,
+              height: dimensions.width * 0.061,
+              alignSelf: 'center',
+            }}
+            resizeMode='contain'
+          />
+        </TouchableOpacity>
       </View>
       {selectedCulinaryScreen === 'Home' ? (
         <SafeAreaView style={{
@@ -244,241 +293,119 @@ const HomeScreen = () => {
           {!isGenerating ? (
             <>
               {!generatedCulinaryRestaurant ? (
-                <ScrollView style={{
-                  width: dimensions.width,
-                  alignSelf: 'center',
-                }} contentContainerStyle={{
-                  paddingBottom: dimensions.height * 0.16,
-                }} showsVerticalScrollIndicator={false}>
-                  <View style={{
-                    width: dimensions.width * 0.9,
-                    paddingTop: dimensions.height * 0.001,
-                    borderTopLeftRadius: dimensions.width * 0.035,
-                    borderTopRightRadius: dimensions.width * 0.035,
-                    borderBottomLeftRadius: dimensions.width * 0.1,
-                    borderBottomRightRadius: dimensions.width * 0.1,
-                    backgroundColor: '#CCA65A',
-                    alignSelf: 'center',
-                    marginTop: dimensions.height * 0.1,
-                  }}>
-                    <View style={{
-                      width: dimensions.width * 0.9,
-                      paddingTop: dimensions.height * 0.01,
-                      borderRadius: dimensions.width * 0.031,
-                      backgroundColor: '#39383D',
+                <View >
+                  <Text
+                    style={{
+                      marginTop: dimensions.height * 0.03,
+                      fontSize: dimensions.width * 0.064,
+                      fontFamily: fontKarlaRegular,
+                      fontWeight: 500,
+                      color: 'white',
+                      textAlign: 'center',
                       alignSelf: 'center',
                     }}>
-                      <Text
-                        style={{
-                          marginTop: dimensions.height * 0.007,
-                          fontSize: dimensions.width * 0.059,
-                          fontFamily: fontK2DRegular,
-                          fontWeight: 600,
-                          color: 'white',
-                          textAlign: 'center',
-                          alignSelf: 'center',
-                        }}>
-                        Restaurans Explorer
-                      </Text>
+                    Choose your Shine
+                  </Text>
+                  <Text
+                    style={{
+                      marginTop: dimensions.height * 0.01,
+                      fontSize: dimensions.width * 0.04,
+                      fontFamily: fontKarlaRegular,
+                      fontWeight: 400,
+                      color: '#C9C9C9',
+                      textAlign: 'center',
+                      alignSelf: 'center',
+                    }}>
+                    Tap on the category to explore Nevşehir
+                  </Text>
 
-                      <Text
-                        style={{
-                          fontFamily: fontK2DRegular,
-                          fontSize: dimensions.width * 0.043,
-                          paddingHorizontal: dimensions.width * 0.1,
-                          color: '#C6C6C6',
-                          textAlign: 'center',
-                          marginTop: dimensions.height * 0.007,
-                        }}>
-                        Tap to choose the category
-                      </Text>
-                      <LinearGradient
-                        colors={['rgba(115, 115, 115, 0.3)', 'rgba(217, 217, 217, 0.3)', 'rgba(115, 115, 115, 0.3)']}
-                        start={{ x: 0.5, y: 0 }}
-                        end={{ x: 0.5, y: 1 }}
-                        style={{
-                          alignSelf: 'center',
-                          borderRadius: dimensions.width * 0.032,
-                          width: dimensions.width * 0.8,
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          height: dimensions.height * 0.28,
-                          marginVertical: dimensions.height * 0.021,
-                        }}
-                      >
-                        {categoriesData.map((category, index) => (
-                          <TouchableOpacity
-                            key={category.id}
-                            onPress={() => {
-                              setSelectedCategory(category);
-                            }}
-                            style={{
-                              width: dimensions.width * 0.8,
-                              alignSelf: 'center',
-                              borderBottomWidth: selectedCategory === category && index !== categoriesData.length - 1 ? dimensions.width * 0.003 : 0,
-                              borderTopWidth: selectedCategory === category && index !== 0 ? dimensions.width * 0.003 : 0,
-                              borderColor: '#FDFADD',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              height: dimensions.height * 0.07,
-                              backgroundColor: selectedCategory === category ? 'rgba(47, 46, 49, 0.5)' : 'transparent',
-                            }}
-                          >
-                            <Text
-                              style={{
-                                fontFamily: fontK2DRegular,
-                                fontSize: selectedCategory === category ? dimensions.width * 0.046 : dimensions.width * 0.043,
-                                paddingHorizontal: dimensions.width * 0.1,
-                                alignSelf: 'center',
-                                color: selectedCategory === category ? 'white' : '#C6C6C6',
-                                textAlign: 'center',
-                                fontWeight: selectedCategory === category ? 600 : 400,
-                              }}>
-                              {category.label}
-                            </Text>
-                          </TouchableOpacity>
-                        ))}
-                      </LinearGradient>
-
+                  <View style={{
+                    width: dimensions.width * 0.9,
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    justifyContent: 'space-between',
+                    alignSelf: 'center',
+                    marginTop: dimensions.height * 0.019,
+                  }}>
+                    {categoryButtons.map((category, index) => (
                       <TouchableOpacity
-                        onPress={() => {
-                          handleGenerateRestaurant();
-                        }}
-                        style={{
-                          alignSelf: 'center',
-                          width: dimensions.width * 0.7,
-                        }}
-                      >
-                        <LinearGradient
-                          colors={['#CCA65A', '#FDFADD']}
-                          start={{ x: 0, y: 0.5 }}
-                          end={{ x: 1, y: 0.5 }}
+                        onPress={() => { setSelectedCategory(category) }}
+                        key={index} style={{
+                          borderRadius: dimensions.width * 0.05,
+                          borderColor: selectedCategory === category ? '#F15257' : 'transparent',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          width: dimensions.width * 0.44,
+                          marginBottom: dimensions.width * 0.04,
+                          shadowColor: '#FDCC06',
+                          shadowOffset: { width: 0, height: dimensions.height * 0.0021 },
+                          shadowOpacity: selectedCategory === category ? 0.55 : 0,
+                          shadowRadius: dimensions.width * 0.03,
+                          elevation: 5,
+                        }}>
+                        <Image
+                          source={category.image}
                           style={{
-                            width: dimensions.width * 0.8,
-                            height: dimensions.height * 0.066,
-                            zIndex: 0,
-                            alignSelf: 'center',
-                            borderRadius: dimensions.width * 0.037,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            marginBottom: dimensions.height * 0.023,
+                            width: dimensions.width * 0.43,
+                            height: dimensions.width * 0.43,
+                            textAlign: 'center',
+                            borderColor: selectedCategory === category ? '#FDCC06' : 'white',
+                            borderWidth: dimensions.width * 0.005,
+                            borderRadius: dimensions.width * 0.05,
+
                           }}
-                        >
-                          <Text
-                            style={{
-                              fontFamily: fontK2DRegular,
-                              color: 'black',
-                              fontSize: dimensions.width * 0.046,
-                              textAlign: 'center',
-                              fontWeight: 600
-                            }}>
-                            Search
-                          </Text>
-                        </LinearGradient>
+                          resizeMode="contain"
+                        />
                       </TouchableOpacity>
-                    </View>
+                    ))}
                   </View>
 
-
-                  {!isGenerating && !generatedCulinaryRestaurant && (
-                    <>
-                      <Image
-                        source={require('../assets/images/homeCulinaryImage.png')}
-                        style={{
-                          width: dimensions.width * 0.9,
-                          height: dimensions.height * 0.21,
-                          alignSelf: 'center',
-                          marginTop: dimensions.height * 0.04,
-                          borderRadius: dimensions.width * 0.05,
-                        }}
-                        resizeMode="cover"
-                      />
+                  <TouchableOpacity
+                    onPress={() => {
+                      handleGenerateRestaurant();
+                    }}
+                    style={{
+                      height: dimensions.height * 0.07,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      alignSelf: 'center',
+                      borderRadius: dimensions.width * 0.5,
+                      opacity: selectedCategory === '' || !selectedCategory ? 0.5 : 1,
+                      shadowColor: '#FDCC06',
+                      shadowOffset: { width: 0, height: dimensions.height * 0.0021 },
+                      shadowOpacity: 0.4,
+                      shadowRadius: dimensions.width * 0.03,
+                      elevation: 5,
+                    }}
+                    disabled={selectedCategory === '' || !selectedCategory}
+                  >
+                    <LinearGradient
+                      colors={['#FFF0B5', '#FDCC06']}
+                      start={{ x: 0, y: 0.5 }}
+                      end={{ x: 1, y: 0.5 }}
+                      style={{
+                        borderRadius: dimensions.width * 0.5,
+                        width: dimensions.width * 0.9,
+                        height: dimensions.height * 0.064,
+                        alignSelf: 'center',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
                       <Text
                         style={{
-                          fontFamily: fontK2DRegular,
-                          color: '#e9d8a7',
-                          fontSize: dimensions.width * 0.1,
-                          textAlign: 'left',
-                          paddingHorizontal: dimensions.width * 0.05,
-                          fontWeight: 600
+                          fontFamily: fontKarlaRegular,
+                          color: 'black',
+                          fontSize: dimensions.width * 0.05,
+                          textAlign: 'center',
+                          fontWeight: 600,
+                          zIndex: 10
                         }}>
-                        A
-                        <Text
-                          style={{
-                            fontFamily: fontK2DRegular,
-                            color: 'white',
-                            fontSize: dimensions.width * 0.055,
-                            textAlign: 'left',
-                            paddingHorizontal: dimensions.width * 0.05,
-                            fontWeight: 600
-                          }}>
-                          bout Melbourne Culinarity
-                        </Text>
+                        Explore
                       </Text>
-                      <Text
-                        style={{
-                          fontFamily: fontK2DRegular,
-                          color: '#C6C6C6',
-                          fontSize: dimensions.width * 0.04,
-                          textAlign: 'left',
-                          paddingHorizontal: dimensions.width * 0.05,
-                          fontWeight: 400,
-                          marginTop: dimensions.height * 0.008,
-                        }}>
-                        Melbourne is a food lover’s paradise, offering a rich blend of cultures and flavors. From authentic Australian cuisine to world-class fusion dishes, the city’s diverse dining scene is shaped by its multicultural heritage. With vibrant food markets, top-tier restaurants, and hidden gems, Melbourne is the perfect destination for culinary exploration. Whether you crave fresh seafood, artisan coffee, or innovative gastronomy, the city has something to delight every palate.
-                      </Text>
-
-                      <TouchableOpacity
-                        onPress={() => {
-                          shareCulinaryApp();
-                        }}
-                        style={{
-                          alignSelf: 'center',
-                          width: dimensions.width * 0.9,
-                          marginTop: dimensions.height * 0.05,
-                        }}
-                      >
-                        <LinearGradient
-                          colors={['#CCA65A', '#FDFADD']}
-                          start={{ x: 0, y: 0.5 }}
-                          end={{ x: 1, y: 0.5 }}
-                          style={{
-                            width: dimensions.width * 0.9,
-                            height: dimensions.height * 0.066,
-                            alignSelf: 'center',
-                            borderRadius: dimensions.width * 0.037,
-                            marginBottom: dimensions.height * 0.023,
-                            flexDirection: 'row',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                          }}
-                        >
-                          <Image
-                            source={require('../assets/icons/shareCulinaryIcon.png')}
-                            style={{
-                              width: dimensions.height * 0.021,
-                              height: dimensions.height * 0.021,
-                              marginRight: dimensions.width * 0.03
-                            }}
-                            resizeMode='contain'
-                          />
-                          <Text
-                            style={{
-                              fontFamily: fontK2DRegular,
-                              color: 'black',
-                              fontSize: dimensions.width * 0.046,
-                              textAlign: 'center',
-                              fontWeight: 600
-                            }}>
-                            Share App
-                          </Text>
-                        </LinearGradient>
-                      </TouchableOpacity>
-                    </>
-                  )}
-                </ScrollView>
+                    </LinearGradient>
+                  </TouchableOpacity>
+                </View>
               ) : (
                 <View style={{
                   width: '100%',
@@ -487,60 +414,32 @@ const HomeScreen = () => {
                   justifyContent: 'center',
                   zIndex: 100,
                   position: 'absolute',
-                  marginTop: dimensions.height * 0.1,
+                  marginTop: dimensions.height * 0.01,
                 }}>
                   <View style={{
                     width: dimensions.width * 0.9,
-                    paddingTop: dimensions.height * 0.01,
-                    borderRadius: dimensions.width * 0.031,
-                    backgroundColor: '#39383D',
-                    alignSelf: 'center',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    shadowColor: '#CCA65A',
-                    shadowOffset: {
-                      width: 0,
-                      height: -dimensions.height * 0.0021,
-                    },
-                    shadowOpacity: 1,
-                    shadowRadius: dimensions.width * 0.001,
-                    elevation: 5,
-                  }}>
-                    <Text
-                      style={{
-                        fontFamily: fontK2DRegular,
-                        color: 'white',
-                        fontSize: dimensions.width * 0.064,
-                        textAlign: 'center',
-                        alignSelf: 'center',
-                        fontWeight: 600,
-                        paddingVertical: dimensions.height * 0.014,
-                      }}>
-                      Search Result:
-                    </Text>
-                  </View>
-                  <View style={{
-                    width: dimensions.width * 0.9,
-                    alignSelf: 'center',
-                    borderRadius: dimensions.width * 0.04,
-                    backgroundColor: '#39383D',
+                    borderRadius: dimensions.width * 0.037,
+                    backgroundColor: '#181818',
                     marginTop: dimensions.height * 0.021,
-                    shadowColor: '#111',
+                    alignSelf: 'center',
                     shadowOffset: {
                       width: 0,
                       height: dimensions.height * 0.007,
                     },
-                    shadowOpacity: 0.88,
+                    shadowColor: '#111',
+                    elevation: 7,
                     shadowRadius: dimensions.width * 0.03,
-                    elevation: 5,
+                    borderColor: 'white',
+                    shadowOpacity: 0.88,
+                    borderWidth: dimensions.width * 0.003,
                   }}>
                     <Image
                       source={generatedCulinaryRestaurant?.image}
                       style={{
                         width: '100%',
-                        height: dimensions.height * 0.25,
-                        borderTopLeftRadius: dimensions.width * 0.04,
-                        borderTopRightRadius: dimensions.width * 0.04,
+                        borderTopLeftRadius: dimensions.width * 0.037,
+                        borderTopRightRadius: dimensions.width * 0.037,
+                        height: dimensions.height * 0.241,
                       }}
                       resizeMode="stretch"
                     />
@@ -551,13 +450,13 @@ const HomeScreen = () => {
                     }}>
                       <Text
                         style={{
-                          fontFamily: fontK2DRegular,
-                          textAlign: "left",
-                          fontSize: dimensions.width * 0.05,
                           alignSelf: 'flex-start',
-                          fontWeight: 600,
-                          color: '#CCA65A',
+                          color: 'white',
                           alignItems: 'center',
+                          textAlign: "left",
+                          fontSize: dimensions.width * 0.053,
+                          fontWeight: 600,
+                          fontFamily: fontKarlaRegular,
                           justifyContent: 'center',
                         }}
                       >
@@ -565,135 +464,29 @@ const HomeScreen = () => {
                       </Text>
                       <Text
                         style={{
-                          fontFamily: fontK2DRegular,
-                          textAlign: "left",
-                          fontSize: dimensions.width * 0.039,
+                          fontFamily: fontKarlaExtraLight,
+                          fontSize: dimensions.width * 0.043,
+                          marginTop: dimensions.height * 0.005,
                           alignSelf: 'flex-start',
-                          fontWeight: 400,
-                          color: '#C6C6C6',
+                          color: 'white',
+                          textAlign: "left",
                           alignItems: 'center',
-                          justifyContent: 'center',
                           maxWidth: dimensions.width * 0.8,
-                          marginTop: dimensions.height * 0.005
-
+                          justifyContent: 'center',
                         }}
                       >
                         {generatedCulinaryRestaurant?.description}
                       </Text>
 
                       <View style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        alignSelf: 'flex-start',
-                        marginTop: dimensions.height * 0.007
-                      }}>
-                        <Text
-                          style={{
-                            fontFamily: fontK2DRegular,
-                            textAlign: "left",
-                            fontSize: dimensions.width * 0.039,
-                            fontWeight: 400,
-                            color: '#CCA65A',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            marginRight: dimensions.width * 0.03,
-                          }}
-                        >
-                          Rating:
-                        </Text>
-
-                        {[1, 2, 3, 4, 5].map((star, index) => (
-                          star <= generatedCulinaryRestaurant.rating ? (
-                            <Text
-                              key={star}
-                              style={{
-                                fontFamily: fontK2DRegular,
-                                textAlign: "left",
-                                fontSize: dimensions.width * 0.03,
-                                fontWeight: 400,
-                                color: '#CCA65A',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                marginRight: dimensions.width * 0.01,
-                              }}
-                            >
-                              ★
-                            </Text>
-                          ) : (
-                            <Text
-                              key={star}
-                              style={{
-                                fontFamily: fontK2DRegular,
-                                textAlign: "left",
-                                fontSize: dimensions.width * 0.03,
-                                fontWeight: 400,
-                                color: '#CCA65A',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                marginRight: dimensions.width * 0.01,
-
-                              }}
-                            >
-                              ☆
-                            </Text>
-                          )
-                        ))}
-                      </View>
-
-
-                      <View style={{
-                        width: '100%',
+                        marginTop: dimensions.height * 0.0241,
                         flexDirection: 'row',
                         justifyContent: 'space-between',
                         alignItems: 'center',
                         alignSelf: 'center',
-                        marginTop: dimensions.height * 0.025,
-                        marginBottom: dimensions.height * 0.028,
+                        width: '100%',
+                        marginBottom: dimensions.height * 0.027,
                       }}>
-                        <TouchableOpacity
-                          onPress={() => {
-                            saveCulinaryRestaurant(generatedCulinaryRestaurant);
-                          }}
-                          style={{
-                            padding: dimensions.width * 0.04,
-                            width: dimensions.width * 0.14,
-                            height: dimensions.width * 0.14,
-                            backgroundColor: '#2F2E31',
-                            borderRadius: dimensions.width * 0.035,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                          }}>
-                          <LinearGradient
-                            colors={isCulinaryRestaurantSaved(generatedCulinaryRestaurant) ? ['#CCA65A', '#FFFCDD'] : ['transparent', 'transparent']}
-                            start={{ x: 0, y: 0.5 }}
-                            end={{ x: 1, y: 0.5 }}
-                            style={{
-                              width: dimensions.width * 0.14,
-                              height: dimensions.width * 0.14,
-                              zIndex: 0,
-                              alignSelf: 'center',
-                              borderRadius: dimensions.width * 0.035,
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                            }}
-                          >
-                            <Image
-                              source={isCulinaryRestaurantSaved(generatedCulinaryRestaurant)
-                                ? require('../assets/icons/blackHeartIcon.png')
-                                : require('../assets/icons/whiteHeartIcon.png')
-                              }
-                              style={{
-                                width: dimensions.width * 0.055,
-                                height: dimensions.width * 0.055,
-                                textAlign: 'center',
-                                zIndex: 10
-                              }}
-                              resizeMode="contain"
-                            />
-                          </LinearGradient>
-                        </TouchableOpacity>
-
                         <TouchableOpacity
                           onPress={() => {
                             setSelectedCulinaryRestaurat(generatedCulinaryRestaurant);
@@ -706,14 +499,14 @@ const HomeScreen = () => {
                           }}
                         >
                           <LinearGradient
-                            colors={['#CCA65A', '#FDFADD']}
+                            colors={['#FFF0B5', '#FDCC06']}
                             start={{ x: 0, y: 0.5 }}
                             end={{ x: 1, y: 0.5 }}
                             style={{
-                              width: dimensions.width * 0.44,
-                              height: dimensions.height * 0.066,
-                              alignSelf: 'center',
                               borderRadius: dimensions.width * 0.037,
+                              width: dimensions.width * 0.4,
+                              height: dimensions.height * 0.066,
+                              alignSelf: 'flex-start',
                               flexDirection: 'row',
                               justifyContent: 'center',
                               alignItems: 'center',
@@ -721,38 +514,71 @@ const HomeScreen = () => {
                           >
                             <Text
                               style={{
-                                fontFamily: fontK2DRegular,
+                                fontFamily: fontKarlaRegular,
                                 color: 'black',
                                 fontSize: dimensions.width * 0.043,
                                 textAlign: 'center',
                                 fontWeight: 600
                               }}>
-                              Open map
+                              Set Route
                             </Text>
                           </LinearGradient>
                         </TouchableOpacity>
 
+                        <TouchableOpacity
+                          onPress={() => {
+                            saveCulinaryRestaurant(generatedCulinaryRestaurant);
+                          }}
+                          style={{
+                            height: dimensions.width * 0.140,
+                            padding: dimensions.width * 0.037,
+                            backgroundColor: '#2F2E31',
+                            borderRadius: dimensions.width * 0.035,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            width: dimensions.width * 0.140,
+                            borderColor: 'white',
+                            backgroundColor: isCulinaryRestaurantSaved(generatedCulinaryRestaurant) ? '#FDCC06' : 'transparent',
+                            borderWidth: !isCulinaryRestaurantSaved(generatedCulinaryRestaurant) ? dimensions.width * 0.003 : 0,
+                          }}>
+                          <Image
+                            source={isCulinaryRestaurantSaved(generatedCulinaryRestaurant)
+                              ? require('../assets/icons/blackInappIcons/savedIcon.png')
+                              : require('../assets/icons/inappIcons/savedIcon.png')
+                            }
+                            style={{
+                              width: dimensions.width * 0.055,
+                              height: dimensions.width * 0.055,
+                              textAlign: 'center',
+                              zIndex: 10
+                            }}
+                            resizeMode="contain"
+                          />
+                        </TouchableOpacity>
 
                         <TouchableOpacity
                           onPress={() => {
                             shareCulinaryRestaurant(generatedCulinaryRestaurant?.title)
                           }}
                           style={{
-                            padding: dimensions.width * 0.04,
-                            width: dimensions.width * 0.14,
-                            height: dimensions.width * 0.14,
-                            backgroundColor: '#2F2E31',
+                            justifyContent: 'center',
+                            padding: dimensions.width * 0.037,
+                            width: dimensions.width * 0.140,
                             borderRadius: dimensions.width * 0.035,
                             alignItems: 'center',
-                            justifyContent: 'center',
+                            height: dimensions.width * 0.140,
                             shadowColor: '#111',
+                            backgroundColor: '#2F2E31',
                             shadowOffset: {
                               width: 0,
                               height: dimensions.height * 0.004,
                             },
+                            borderColor: '#fff',
                             shadowOpacity: 0.3,
-                            shadowRadius: dimensions.width * 0.0005,
                             elevation: 5,
+                            backgroundColor: 'transparent',
+                            borderWidth: dimensions.width * 0.003,
+                            shadowRadius: dimensions.width * 0.0005,
                           }}>
                           <Image
                             source={require('../assets/icons/whiteShareCulinaryIcon.png')}
@@ -780,28 +606,28 @@ const HomeScreen = () => {
                     }}
                   >
                     <LinearGradient
-                      colors={['#CCA65A', '#FDFADD']}
+                      colors={['#FFF0B5', '#FDCC06']}
                       start={{ x: 0, y: 0.5 }}
                       end={{ x: 1, y: 0.5 }}
                       style={{
-                        width: dimensions.width * 0.9,
+                        justifyContent: 'center',
+                        borderRadius: dimensions.width * 0.5,
                         height: dimensions.height * 0.066,
                         alignSelf: 'center',
-                        borderRadius: dimensions.width * 0.037,
-                        flexDirection: 'row',
-                        justifyContent: 'center',
+                        width: dimensions.width * 0.9,
                         alignItems: 'center',
+                        flexDirection: 'row',
                       }}
                     >
                       <Text
                         style={{
-                          fontFamily: fontK2DRegular,
+                          fontWeight: 600,
                           color: 'black',
                           fontSize: dimensions.width * 0.043,
                           textAlign: 'center',
-                          fontWeight: 600
+                          fontFamily: fontKarlaRegular,
                         }}>
-                        Close
+                        Search Again
                       </Text>
                     </LinearGradient>
                   </TouchableOpacity>
@@ -811,15 +637,15 @@ const HomeScreen = () => {
           ) : (
             <>
               <View style={{
-                width: dimensions.width * 0.9,
+                borderBottomLeftRadius: dimensions.width * 0.1,
                 paddingTop: dimensions.height * 0.001,
                 borderTopLeftRadius: dimensions.width * 0.035,
                 borderTopRightRadius: dimensions.width * 0.035,
-                borderBottomLeftRadius: dimensions.width * 0.1,
-                borderBottomRightRadius: dimensions.width * 0.1,
+                width: dimensions.width * 0.9,
                 backgroundColor: '#CCA65A',
                 alignSelf: 'center',
                 marginTop: dimensions.height * 0.1,
+                borderBottomRightRadius: dimensions.width * 0.1,
               }}>
                 <View style={{
                   width: dimensions.width * 0.9,
@@ -834,7 +660,7 @@ const HomeScreen = () => {
                       style={{
                         marginTop: dimensions.height * 0.007,
                         fontSize: dimensions.width * 0.059,
-                        fontFamily: fontK2DRegular,
+                        fontFamily: fontKarlaRegular,
                         fontWeight: 600,
                         color: 'white',
                         textAlign: 'center',
@@ -844,7 +670,7 @@ const HomeScreen = () => {
                     <View style={{ minWidth: dimensions.width * 0.1, alignItems: 'flex-start' }}>
                       <Text
                         style={{
-                          fontFamily: fontK2DRegular,
+                          fontFamily: fontKarlaRegular,
                           fontSize: dimensions.width * 0.059,
                           fontWeight: 600,
                           color: 'white',
@@ -857,7 +683,7 @@ const HomeScreen = () => {
 
                   <Text
                     style={{
-                      fontFamily: fontK2DRegular,
+                      fontFamily: fontKarlaRegular,
                       fontSize: dimensions.width * 0.043,
                       paddingHorizontal: dimensions.width * 0.1,
                       color: '#C6C6C6',
@@ -880,7 +706,7 @@ const HomeScreen = () => {
                   <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginLeft: dimensions.width * 0.07, }}>
                     <Text
                       style={{
-                        fontFamily: fontK2DRegular,
+                        fontFamily: fontKarlaRegular,
                         fontSize: dimensions.width * 0.043,
                         color: '#C6C6C6',
                         textAlign: 'center',
@@ -891,7 +717,7 @@ const HomeScreen = () => {
                     <View style={{ minWidth: dimensions.width * 0.1, alignItems: 'flex-start', marginTop: dimensions.height * 0.007 }}>
                       <Text
                         style={{
-                          fontFamily: fontK2DRegular,
+                          fontFamily: fontKarlaRegular,
                           fontSize: dimensions.width * 0.043,
                           color: '#C6C6C6',
                           textAlign: 'left',
@@ -914,7 +740,7 @@ const HomeScreen = () => {
                     }}
                   >
                     <LinearGradient
-                      colors={['#CCA65A', '#FDFADD']}
+                      colors={['#FFF0B5', '#FDCC06']}
                       start={{ x: 0, y: 0.5 }}
                       end={{ x: 1, y: 0.5 }}
                       style={{
@@ -931,7 +757,7 @@ const HomeScreen = () => {
                       <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: dimensions.width * 0.07, }}>
                         <Text
                           style={{
-                            fontFamily: fontK2DRegular,
+                            fontFamily: fontKarlaRegular,
                             color: 'black',
                             fontSize: dimensions.width * 0.046,
                             fontWeight: 600,
@@ -942,7 +768,7 @@ const HomeScreen = () => {
                         <View style={{ minWidth: dimensions.width * 0.1, marginLeft: dimensions.width * 0.001 }}>
                           <Text
                             style={{
-                              fontFamily: fontK2DRegular,
+                              fontFamily: fontKarlaRegular,
                               color: 'black',
                               fontSize: dimensions.width * 0.046,
                               fontWeight: 600,
@@ -961,7 +787,7 @@ const HomeScreen = () => {
           )}
         </SafeAreaView>
       ) : selectedCulinaryScreen === 'Favourites' ? (
-        <FavouritesScreen setSelectedCulinaryScreen={setSelectedCulinaryScreen} setSelectedCulinaryRestaurat={setSelectedCulinaryRestaurat} savedCulinaryRestaurats={savedCulinaryRestaurats} setSavedCulinaryRestaurats={setSavedCulinaryRestaurats} setIsCulinaryMapRestaurantVisible={setIsCulinaryMapRestaurantVisible}/>
+        <FavouritesScreen setSelectedCulinaryScreen={setSelectedCulinaryScreen} setSelectedCulinaryRestaurat={setSelectedCulinaryRestaurat} savedCulinaryRestaurats={savedCulinaryRestaurats} setSavedCulinaryRestaurats={setSavedCulinaryRestaurats} setIsCulinaryMapRestaurantVisible={setIsCulinaryMapRestaurantVisible} />
       ) : selectedCulinaryScreen === 'CulinaryMap' ? (
         <CulinaryMapScreen setSelectedCulinaryScreen={setSelectedCulinaryScreen} selectedCulinaryRestaurat={selectedCulinaryRestaurat} isCulinaryMapRestaurantVisible={isCulinaryMapRestaurantVisible} setIsCulinaryMapRestaurantVisible={setIsCulinaryMapRestaurantVisible} setSavedCulinaryRestaurats={setSavedCulinaryRestaurats} savedCulinaryRestaurats={savedCulinaryRestaurats} selectedCulinaryScreen={selectedCulinaryScreen} />
       ) : selectedCulinaryScreen === 'Top5Restaurants' ? (
@@ -969,6 +795,60 @@ const HomeScreen = () => {
       ) : selectedCulinaryScreen === 'Blog' ? (
         <BlogScreen setSelectedCulinaryScreen={setSelectedCulinaryScreen} setSavedCulinaryRestaurats={setSavedCulinaryRestaurats} savedCulinaryRestaurats={savedCulinaryRestaurats} />
       ) : null}
+
+      <View
+        style={{
+          position: 'absolute',
+          bottom: dimensions.height * 0.055,
+          backgroundColor: '#0C0C0C',
+          height: dimensions.height * 0.08,
+          width: dimensions.width * 0.9,
+          borderColor: '#FDCC06',
+          borderWidth: dimensions.width * 0.003,
+          paddingHorizontal: dimensions.width * 0.034,
+          borderRadius: dimensions.width * 0.025,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          alignSelf: 'center',
+          paddingVertical: dimensions.height * 0.007,
+          zIndex: 5000,
+          shadowColor: '#000',
+          shadowOffset: {
+            width: 0,
+            height: 3,
+          },
+          shadowOpacity: 0.28,
+          shadowRadius: 5,
+          elevation: 3,
+        }}
+      >
+        {bottomBtns.map((button, index) => (
+          <TouchableOpacity
+            key={button.id}
+            onPress={() => setSelectedCulinaryScreen(button.screen)}
+            style={{
+              paddingHorizontal: dimensions.height * 0.014,
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: selectedCulinaryScreen === button.screen ? '#FDCC06' : '#1E1E1E',
+              width: dimensions.height * 0.066,
+              height: dimensions.height * 0.066,
+              borderRadius: dimensions.height * 0.01,
+            }}
+          >
+            <Image
+              source={selectedCulinaryScreen === button.screen ? button.goldCulinaryIcon : button.whiteCulinaryIcon}
+              style={{
+                width: dimensions.height * 0.025,
+                height: dimensions.height * 0.025,
+                textAlign: 'center'
+              }}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
+        ))}
+      </View>
     </View>
   );
 };

@@ -14,14 +14,18 @@ import { ChevronLeftIcon } from 'react-native-heroicons/outline';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LinearGradient from 'react-native-linear-gradient';
 
-import modernFusionData from '../components/modernFusionData';
-import herritageFlavorsData from '../components/herritageFlavorsData';
-import coastalBitesData from '../components/coastalBitesData';
-import hiddenGemsData from '../components/hiddenGemsData';
+import mysticWondersData from '../components/mysticWondersData';
+import goldenHeritageData from '../components/goldenHeritageData';
+import sunsetSerenityData from '../components/sunsetSerenityData';
+import localDelightsData from '../components/localDelightsData';
 
-const allCulinaryRestaurantsData = [...modernFusionData, ...herritageFlavorsData, ...coastalBitesData, ...hiddenGemsData];
+const allCulinaryRestaurantsData = [...mysticWondersData, ...goldenHeritageData, ...sunsetSerenityData, ...localDelightsData];
 
 const fontK2DRegular = 'K2D-Regular';
+
+const fontKarlaRegular = 'Karla-Regular';
+const fontKarlaLight = 'Karla-Light';
+const fontKarlaExtraLight = 'Karla-ExtraLight';
 
 const CulinaryMapScreen = ({ selectedCulinaryRestaurat, setSelectedCulinaryScreen, isCulinaryMapRestaurantVisible, setIsCulinaryMapRestaurantVisible, setSavedCulinaryRestaurats, savedCulinaryRestaurats }) => {
     const [dimensions, setDimensions] = useState(Dimensions.get('window'));
@@ -40,7 +44,7 @@ const CulinaryMapScreen = ({ selectedCulinaryRestaurat, setSelectedCulinaryScree
         return savedCulinaryRestaurats.some((kn) => kn.id === thisRest?.id);
     };
 
-    const saveCulinaryMapRestaurant = async (rest) => {
+    const saveNeshineMapPlace = async (rest) => {
         try {
             const savedMapRest = await AsyncStorage.getItem('savedCulinaryRestaurats');
             const parsedMapRests = savedMapRest ? JSON.parse(savedMapRest) : [];
@@ -63,43 +67,6 @@ const CulinaryMapScreen = ({ selectedCulinaryRestaurat, setSelectedCulinaryScree
 
     return (
         <SafeAreaView style={{ width: dimensions.width }}>
-            <View style={{
-                zIndex: 50,
-                alignSelf: 'center',
-                alignItems: 'center',
-                flexDirection: 'row',
-                width: dimensions.width,
-
-            }}>
-                <TouchableOpacity
-                    onPress={() => {
-                        setSelectedCulinaryScreen('Home');
-                    }}
-                    style={{
-                        borderRadius: dimensions.width * 0.5,
-                        zIndex: 100,
-                        padding: dimensions.width * 0.04,
-                        alignSelf: 'flex-start',
-                    }}>
-                    <ChevronLeftIcon size={dimensions.width * 0.07} color='white' />
-                </TouchableOpacity>
-                <Text
-                    style={{
-                        fontFamily: fontK2DRegular,
-                        textAlign: "left",
-                        fontSize: dimensions.width * 0.064,
-                        alignSelf: 'center',
-                        fontWeight: 700,
-                        color: 'white',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        marginRight: dimensions.width * 0.05
-
-                    }}
-                >
-                    Cultural Places
-                </Text>
-            </View>
             <MapView
                 style={{
                     width: dimensions.width,
@@ -122,7 +89,7 @@ const CulinaryMapScreen = ({ selectedCulinaryRestaurat, setSelectedCulinaryScree
                         coordinate={location.coordinates}
                         title={location.title}
                         description={location.description}
-                        pinColor={selectedCulinaryRestaurat && location.coordinates === selectedCulinaryRestaurat.coordinates ? "#FFFCDD" : "#2F2E31"}
+                        pinColor={selectedCulinaryRestaurat && location.coordinates === selectedCulinaryRestaurat.coordinates ? "#181818" : "#FDCC06"}
                     />
                 ))}
             </MapView>
@@ -134,31 +101,32 @@ const CulinaryMapScreen = ({ selectedCulinaryRestaurat, setSelectedCulinaryScree
                     justifyContent: 'center',
                     zIndex: 100,
                     position: 'absolute',
-                    top: dimensions.height * 0.16,
+                    top: dimensions.height * 0.055,
                 }}>
                     <View style={{
                         width: dimensions.width * 0.9,
-                        alignSelf: 'center',
-                        borderRadius: dimensions.width * 0.04,
-                        backgroundColor: '#39383D',
+                        borderRadius: dimensions.width * 0.037,
+                        backgroundColor: '#181818',
                         marginTop: dimensions.height * 0.021,
-                        shadowColor: '#111',
+                        alignSelf: 'center',
                         shadowOffset: {
                             width: 0,
                             height: dimensions.height * 0.007,
                         },
-                        shadowOpacity: 0.88,
+                        shadowColor: '#111',
+                        elevation: 7,
                         shadowRadius: dimensions.width * 0.03,
-                        elevation: 5,
+                        borderColor: 'white',
+                        shadowOpacity: 0.88,
+                        borderWidth: dimensions.width * 0.003,
                     }}>
                         <Image
                             source={selectedCulinaryRestaurat?.image}
                             style={{
-                                width: dimensions.width * 0.9,
-                                alignSelf: 'center',
-                                height: dimensions.height * 0.25,
-                                borderTopLeftRadius: dimensions.width * 0.04,
-                                borderTopRightRadius: dimensions.width * 0.04,
+                                width: '100%',
+                                borderTopLeftRadius: dimensions.width * 0.037,
+                                borderTopRightRadius: dimensions.width * 0.037,
+                                height: dimensions.height * 0.241,
                             }}
                             resizeMode="stretch"
                         />
@@ -169,151 +137,43 @@ const CulinaryMapScreen = ({ selectedCulinaryRestaurat, setSelectedCulinaryScree
                         }}>
                             <Text
                                 style={{
-                                    fontFamily: fontK2DRegular,
-                                    textAlign: "left",
-                                    fontSize: dimensions.width * 0.05,
                                     alignSelf: 'flex-start',
-                                    fontWeight: 600,
-                                    color: '#CCA65A',
+                                    color: 'white',
                                     alignItems: 'center',
+                                    textAlign: "left",
+                                    fontSize: dimensions.width * 0.053,
+                                    fontWeight: 600,
+                                    fontFamily: fontKarlaRegular,
                                     justifyContent: 'center',
-                                    paddingHorizontal: dimensions.width * 0.05,
                                 }}
                             >
                                 {selectedCulinaryRestaurat?.title}
                             </Text>
                             <Text
                                 style={{
-                                    fontFamily: fontK2DRegular,
-                                    textAlign: "left",
-                                    fontSize: dimensions.width * 0.039,
-                                    alignSelf: 'flex-start',
-                                    fontWeight: 400,
-                                    color: '#C6C6C6',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    maxWidth: dimensions.width * 0.8,
+                                    fontFamily: fontKarlaExtraLight,
+                                    fontSize: dimensions.width * 0.043,
                                     marginTop: dimensions.height * 0.005,
-                                    paddingHorizontal: dimensions.width * 0.05,
+                                    alignSelf: 'flex-start',
+                                    color: 'white',
+                                    textAlign: "left",
+                                    alignItems: 'center',
+                                    maxWidth: dimensions.width * 0.8,
+                                    justifyContent: 'center',
                                 }}
                             >
                                 {selectedCulinaryRestaurat?.description}
                             </Text>
 
                             <View style={{
-                                flexDirection: 'row',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                alignSelf: 'flex-start',
-                                marginTop: dimensions.height * 0.007,
-                                paddingHorizontal: dimensions.width * 0.05,
-                            }}>
-                                <Text
-                                    style={{
-                                        fontFamily: fontK2DRegular,
-                                        textAlign: "left",
-                                        fontSize: dimensions.width * 0.039,
-                                        fontWeight: 400,
-                                        color: '#CCA65A',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        marginRight: dimensions.width * 0.03,
-                                    }}
-                                >
-                                    Rating:
-                                </Text>
-
-                                {[1, 2, 3, 4, 5].map((star, index) => (
-                                    star <= selectedCulinaryRestaurat.rating ? (
-                                        <Text
-                                            key={star}
-                                            style={{
-                                                fontFamily: fontK2DRegular,
-                                                textAlign: "left",
-                                                fontSize: dimensions.width * 0.03,
-                                                fontWeight: 400,
-                                                color: '#CCA65A',
-                                                alignItems: 'center',
-                                                justifyContent: 'center',
-                                                marginRight: dimensions.width * 0.01,
-                                            }}
-                                        >
-                                            ★
-                                        </Text>
-                                    ) : (
-                                        <Text
-                                            key={star}
-                                            style={{
-                                                fontFamily: fontK2DRegular,
-                                                textAlign: "left",
-                                                fontSize: dimensions.width * 0.03,
-                                                fontWeight: 400,
-                                                color: '#CCA65A',
-                                                alignItems: 'center',
-                                                justifyContent: 'center',
-                                                marginRight: dimensions.width * 0.01,
-
-                                            }}
-                                        >
-                                            ☆
-                                        </Text>
-                                    )
-                                ))}
-                            </View>
-
-                            <View style={{
-                                width: dimensions.width * 0.9,
+                                marginTop: dimensions.height * 0.0241,
                                 flexDirection: 'row',
                                 justifyContent: 'space-between',
                                 alignItems: 'center',
                                 alignSelf: 'center',
-                                marginTop: dimensions.height * 0.025,
-                                marginBottom: dimensions.height * 0.028,
-                                paddingHorizontal: dimensions.width * 0.05,
+                                width: '100%',
+                                marginBottom: dimensions.height * 0.027,
                             }}>
-                                <TouchableOpacity
-                                    onPress={() => {
-                                        saveCulinaryMapRestaurant(selectedCulinaryRestaurat);
-                                    }}
-                                    style={{
-                                        padding: dimensions.width * 0.04,
-                                        width: dimensions.width * 0.14,
-                                        height: dimensions.width * 0.14,
-                                        backgroundColor: '#2F2E31',
-                                        borderRadius: dimensions.width * 0.035,
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                    }}>
-                                    <LinearGradient
-                                        colors={isCulinaryMapRestSaved(selectedCulinaryRestaurat) ? ['#CCA65A', '#FFFCDD'] : ['transparent', 'transparent']}
-                                        start={{ x: 0, y: 0.5 }}
-                                        end={{ x: 1, y: 0.5 }}
-                                        style={{
-                                            width: dimensions.width * 0.14,
-                                            height: dimensions.width * 0.14,
-                                            zIndex: 0,
-                                            alignSelf: 'center',
-                                            borderRadius: dimensions.width * 0.035,
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                        }}
-                                    >
-                                        <Image
-                                            source={isCulinaryMapRestSaved(selectedCulinaryRestaurat)
-                                                ? require('../assets/icons/blackHeartIcon.png')
-                                                : require('../assets/icons/whiteHeartIcon.png')
-                                            }
-                                            style={{
-                                                width: dimensions.width * 0.055,
-                                                height: dimensions.width * 0.055,
-                                                textAlign: 'center',
-                                                zIndex: 10
-                                            }}
-                                            resizeMode="contain"
-                                        />
-                                    </LinearGradient>
-                                </TouchableOpacity>
-
                                 <TouchableOpacity
                                     onPress={() => {
                                         setIsCulinaryMapRestaurantVisible(false);
@@ -324,14 +184,14 @@ const CulinaryMapScreen = ({ selectedCulinaryRestaurat, setSelectedCulinaryScree
                                     }}
                                 >
                                     <LinearGradient
-                                        colors={['#CCA65A', '#FDFADD']}
+                                        colors={['#FFF0B5', '#FDCC06']}
                                         start={{ x: 0, y: 0.5 }}
                                         end={{ x: 1, y: 0.5 }}
                                         style={{
-                                            width: dimensions.width * 0.44,
-                                            height: dimensions.height * 0.066,
-                                            alignSelf: 'center',
                                             borderRadius: dimensions.width * 0.037,
+                                            width: dimensions.width * 0.4,
+                                            height: dimensions.height * 0.066,
+                                            alignSelf: 'flex-start',
                                             flexDirection: 'row',
                                             justifyContent: 'center',
                                             alignItems: 'center',
@@ -339,7 +199,7 @@ const CulinaryMapScreen = ({ selectedCulinaryRestaurat, setSelectedCulinaryScree
                                     >
                                         <Text
                                             style={{
-                                                fontFamily: fontK2DRegular,
+                                                fontFamily: fontKarlaRegular,
                                                 color: 'black',
                                                 fontSize: dimensions.width * 0.043,
                                                 textAlign: 'center',
@@ -350,27 +210,60 @@ const CulinaryMapScreen = ({ selectedCulinaryRestaurat, setSelectedCulinaryScree
                                     </LinearGradient>
                                 </TouchableOpacity>
 
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        saveNeshineMapPlace(selectedCulinaryRestaurat);
+                                    }}
+                                    style={{
+                                        height: dimensions.width * 0.140,
+                                        padding: dimensions.width * 0.037,
+                                        backgroundColor: '#2F2E31',
+                                        borderRadius: dimensions.width * 0.035,
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        width: dimensions.width * 0.140,
+                                        borderColor: 'white',
+                                        backgroundColor: isCulinaryMapRestSaved(selectedCulinaryRestaurat) ? '#FDCC06' : 'transparent',
+                                        borderWidth: !isCulinaryMapRestSaved(selectedCulinaryRestaurat) ? dimensions.width * 0.003 : 0,
+                                    }}>
+                                    <Image
+                                        source={isCulinaryMapRestSaved(selectedCulinaryRestaurat)
+                                            ? require('../assets/icons/blackInappIcons/savedIcon.png')
+                                            : require('../assets/icons/inappIcons/savedIcon.png')
+                                        }
+                                        style={{
+                                            width: dimensions.width * 0.055,
+                                            height: dimensions.width * 0.055,
+                                            textAlign: 'center',
+                                            zIndex: 10
+                                        }}
+                                        resizeMode="contain"
+                                    />
+                                </TouchableOpacity>
 
                                 <TouchableOpacity
                                     onPress={() => {
                                         shareCulinaryRestaurant(selectedCulinaryRestaurat?.title)
                                     }}
                                     style={{
-                                        padding: dimensions.width * 0.04,
-                                        width: dimensions.width * 0.14,
-                                        height: dimensions.width * 0.14,
-                                        backgroundColor: '#2F2E31',
+                                        justifyContent: 'center',
+                                        padding: dimensions.width * 0.037,
+                                        width: dimensions.width * 0.140,
                                         borderRadius: dimensions.width * 0.035,
                                         alignItems: 'center',
-                                        justifyContent: 'center',
+                                        height: dimensions.width * 0.140,
                                         shadowColor: '#111',
+                                        backgroundColor: '#2F2E31',
                                         shadowOffset: {
                                             width: 0,
                                             height: dimensions.height * 0.004,
                                         },
+                                        borderColor: '#fff',
                                         shadowOpacity: 0.3,
-                                        shadowRadius: dimensions.width * 0.0005,
                                         elevation: 5,
+                                        backgroundColor: 'transparent',
+                                        borderWidth: dimensions.width * 0.003,
+                                        shadowRadius: dimensions.width * 0.0005,
                                     }}>
                                     <Image
                                         source={require('../assets/icons/whiteShareCulinaryIcon.png')}

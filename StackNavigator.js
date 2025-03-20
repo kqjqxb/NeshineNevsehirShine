@@ -84,7 +84,7 @@ const AppNavigator = () => {
 
   return (
     <NavigationContainer>
-        <Stack.Navigator initialRouteName={isCulinaryOnboardWasVisible ? 'OnboardingScreen' : 'OnboardingScreen'}>
+        <Stack.Navigator initialRouteName={isCulinaryOnboardWasVisible ? 'OnboardingScreen' : 'Home'}>
           <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
           <Stack.Screen name="OnboardingScreen" component={OnboardingScreen} options={{ headerShown: false }} />
           <Stack.Screen name="LoadingCulinaryCrovnApp" component={LoadingCulinaryCrovvnScreen} options={{ headerShown: false }} />
