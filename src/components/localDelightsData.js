@@ -7,7 +7,7 @@ export default [
             latitude: 38.6421, 
             longitude: 34.8287,
         },
-        image: require('../assets/images/restaurantsImages/hiddenGemsImages/rest1.png'),
+        image: require('../assets/images/neshinePlacesImages/placeImage10.png'),
     },
     {
         id: 11,
@@ -18,7 +18,7 @@ export default [
             latitude: 38.6430, 
             longitude: 34.8274,
         },
-        image: require('../assets/images/restaurantsImages/hiddenGemsImages/rest2.png'),
+        image: require('../assets/images/neshinePlacesImages/placeImage11.png'),
     },
     {
         id: 12,
@@ -28,6 +28,6 @@ export default [
             latitude:  38.6293, 
             longitude: 34.9132,
         },
-        image: require('../assets/images/restaurantsImages/hiddenGemsImages/rest3.png'),
+        image: require('../assets/images/neshinePlacesImages/placeImage12.png'),
     },
 ]

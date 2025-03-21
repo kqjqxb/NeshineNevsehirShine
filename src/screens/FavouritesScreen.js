@@ -259,7 +259,7 @@ const FavouritesScreen = ({ setSelectedCulinaryScreen, savedCulinaryRestaurats, 
                       shadowRadius: dimensions.width * 0.0005,
                     }}>
                     <Image
-                      source={require('../assets/icons/whiteShareCulinaryIcon.png')}
+                      source={require('../assets/icons/whiteShareNeshineIcon.png')}
                       style={{
                         width: dimensions.width * 0.055,
                         height: dimensions.width * 0.055,

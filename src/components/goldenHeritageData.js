@@ -7,7 +7,7 @@ export default [
             latitude: 38.6294,
             longitude: 34.8006,
         },
-        image: require('../assets/images/restaurantsImages/herritageFlavorsImages/rest1.png'),
+        image: require('../assets/images/neshinePlacesImages/placeImage1.png'),
     },
     {
         id: 2,
@@ -17,7 +17,7 @@ export default [
             latitude: 38.6439, 
             longitude: 34.8323,
         },
-        image: require('../assets/images/restaurantsImages/herritageFlavorsImages/rest2.png'),
+        image: require('../assets/images/neshinePlacesImages/placeImage2.png'),
     },
     {
         id: 3,
@@ -28,6 +28,6 @@ export default [
             latitude: 38.3747, 
             longitude: 34.7306,
         },
-        image: require('../assets/images/restaurantsImages/herritageFlavorsImages/rest3.png'),
+        image: require('../assets/images/neshinePlacesImages/placeImage3.png'),
     },
 ]

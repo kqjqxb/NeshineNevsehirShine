@@ -7,7 +7,7 @@ export default [
             latitude: 38.6562, 
             longitude: 34.8748,
         },
-        image: require('../assets/images/restaurantsImages/coastalBitesImages/rest1.png'),
+        image: require('../assets/images/neshinePlacesImages/placeImage7.png'),
     },
     {
         id: 8,
@@ -17,7 +17,7 @@ export default [
             latitude: 38.6434, 
             longitude: 34.8259,
         },
-        image: require('../assets/images/restaurantsImages/coastalBitesImages/rest2.png'),
+        image: require('../assets/images/neshinePlacesImages/placeImage8.png'),
     },
     {
         id: 9,
@@ -27,6 +27,6 @@ export default [
             latitude: 38.6296, 
             longitude: 34.8839,
         },
-        image: require('../assets/images/restaurantsImages/coastalBitesImages/rest3.png'),
+        image: require('../assets/images/neshinePlacesImages/placeImage9.png'),
     },
 ]

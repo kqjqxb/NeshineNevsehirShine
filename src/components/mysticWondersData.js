@@ -7,7 +7,7 @@ export default [
             latitude:  38.6730, 
             longitude: 34.8138,
         },
-        image: require('../assets/images/restaurantsImages/modernFusionImages/rest1.png'),
+        image: require('../assets/images/neshinePlacesImages/placeImage4.png'),
     },
     {
         id: 5,
@@ -17,7 +17,7 @@ export default [
             latitude:  38.6317, 
             longitude: 34.8125,
         },
-        image: require('../assets/images/restaurantsImages/modernFusionImages/rest2.png'),
+        image: require('../assets/images/neshinePlacesImages/placeImage5.png'),
     },
     {
         id: 6,
@@ -28,6 +28,6 @@ export default [
             latitude: 38.6756, 
             longitude: 34.8589,
         },
-        image: require('../assets/images/restaurantsImages/modernFusionImages/rest3.png'),
+        image: require('../assets/images/neshinePlacesImages/placeImage6.png'),
     },
 ]

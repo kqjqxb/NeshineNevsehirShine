@@ -179,7 +179,7 @@ const BlogScreen = ({ }) => {
                       borderWidth: dimensions.width * 0.003,
                     }}>
                     <Image
-                      source={require('../assets/icons/whiteShareCulinaryIcon.png')}
+                      source={require('../assets/icons/whiteShareNeshineIcon.png')}
                       style={{
                         width: dimensions.width * 0.055,
                         height: dimensions.width * 0.055,
@@ -342,7 +342,7 @@ const BlogScreen = ({ }) => {
 
             }}>
             <Image
-              source={require('../assets/icons/whiteShareCulinaryIcon.png')}
+              source={require('../assets/icons/whiteShareNeshineIcon.png')}
               style={{
                 width: dimensions.width * 0.055,
                 height: dimensions.width * 0.055,
