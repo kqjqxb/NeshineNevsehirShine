@@ -876,7 +876,7 @@ const HomeScreen = () => {
         <View
           style={{
             position: 'absolute',
-            bottom: dimensions.height * 0.055,
+            bottom: dimensions.height * 0.034,
             backgroundColor: '#0C0C0C',
             height: dimensions.height * 0.08,
             width: dimensions.width * 0.9,
