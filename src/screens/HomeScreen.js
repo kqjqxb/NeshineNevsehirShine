@@ -704,9 +704,11 @@ const HomeScreen = () => {
                   </View>
                   <TouchableOpacity
                     onPress={() => {
-                      setSelectedNeshinePlace(generatedNeshinePlace);
-                      setGeneratedNeshinePlace(null);
-                      setIsNeshineMapPlaceVisible(false);
+                      // setSelectedNeshinePlace(generatedNeshinePlace);
+                      // setGeneratedNeshinePlace(null);
+                      // setIsNeshineMapPlaceVisible(false);
+
+                      handleGenerateAgain();
                     }}
                     style={{
                       alignSelf: 'center',

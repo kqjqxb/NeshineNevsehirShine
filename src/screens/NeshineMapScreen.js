@@ -100,7 +100,8 @@ const NeshineMapScreen = ({ selectedNeshinePlace, setSelectedNeshineScreen, isNe
                     top: dimensions.height * 0.055,
                 }}>
                     <View style={{
-                        width: dimensions.width * 0.9,
+                        // width: dimensions.width * 0.9,
+                        width: dimensions.width * 1.31,
                         borderRadius: dimensions.width * 0.037,
                         backgroundColor: '#181818',
                         marginTop: dimensions.height * 0.021,
