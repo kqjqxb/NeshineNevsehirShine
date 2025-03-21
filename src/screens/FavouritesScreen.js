@@ -174,7 +174,7 @@ const FavouritesScreen = ({ setSelectedCulinaryScreen, savedCulinaryRestaurats, 
                     onPress={() => {
                       setSelectedCulinaryRestaurat(favNeshinePlace);
                       setIsCulinaryMapRestaurantVisible(true);
-                      setSelectedCulinaryScreen('CulinaryMap');
+                      setSelectedCulinaryScreen('NeshineMap');
                     }}
                     style={{
                       alignSelf: 'center',

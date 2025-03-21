@@ -10,19 +10,9 @@ import {
   ScrollView,
   Share,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-
-import top5RestsData from '../components/top5RestsData';
-import goldenHeritageData from '../components/goldenHeritageData';
-import localDelightsData from '../components/localDelightsData';
-import mysticWondersData from '../components/mysticWondersData';
-import sunsetSerenityData from '../components/sunsetSerenityData';
-
-const galeryData = [{ id: 13, image: require('../assets/images/neshinePlacesImages/galleryImage.png'), title: 'Baloons in the sky' }, ...goldenHeritageData, ...localDelightsData, ...mysticWondersData, ...sunsetSerenityData];
 
 
-
-const GalleryScreen = ({ }) => {
+const GalleryScreen = ({ galeryData }) => {
   const [dimensions, setDimensions] = useState(Dimensions.get('window'));
 
   const shareCulinaryBlog = async (title) => {
@@ -41,7 +31,6 @@ const GalleryScreen = ({ }) => {
       paddingHorizontal: dimensions.width * 0.05,
       width: dimensions.width,
     }}>
-
       <ScrollView style={{
         width: dimensions.width,
         alignSelf: 'center',

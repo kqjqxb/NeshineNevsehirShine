@@ -6,15 +6,12 @@ import {
   Image,
   Dimensions,
   SafeAreaView,
-  Alert,
-  ScrollView,
   Share,
-  ActivityIndicator,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LinearGradient from 'react-native-linear-gradient';
 import FavouritesScreen from './FavouritesScreen';
-import CulinaryMapScreen from './CulinaryMapScreen';
+import NeshineMapScreen from './NeshineMapScreen';
 
 import mysticWondersData from '../components/mysticWondersData';
 import goldenHeritageData from '../components/goldenHeritageData';
@@ -24,42 +21,50 @@ import Loader from '../components/Loader';
 import GalleryScreen from './GalleryScreen';
 import BlogScreen from './BlogScreen';
 import WelcomePageScreen from './WelcomePageScreen';
+import NeshineQuizzScreen from './NeshineQuizzScreen';
 
 const fontKarlaRegular = 'Karla-Regular';
 const fontKarlaLight = 'Karla-Light';
 const fontKarlaExtraLight = 'Karla-ExtraLight';
 
+const galeryData = [{ id: 13, image: require('../assets/images/neshinePlacesImages/galleryImage.png'), title: 'Baloons in the sky' }, ...goldenHeritageData, ...localDelightsData, ...mysticWondersData, ...sunsetSerenityData];
+
 const bottomBtns = [
   {
     id: 4,
-    screen: 'Favourites',
+    screen: 'NeshineFavorites',
     whiteCulinaryIcon: require('../assets/icons/inappIcons/savedIcon.png'),
     goldCulinaryIcon: require('../assets/icons/blackInappIcons/savedIcon.png'),
+    neshineUpTitle: 'Saved'
   },
   {
     id: 3,
-    screen: 'CulinaryMap',
+    screen: 'NeshineMap',
     whiteCulinaryIcon: require('../assets/icons/inappIcons/mapIcon.png'),
     goldCulinaryIcon: require('../assets/icons/blackInappIcons/mapIcon.png'),
+    neshineUpTitle: 'Interactive Map'
   },
   {
     id: 1,
     screen: 'Home',
     whiteCulinaryIcon: require('../assets/icons/inappIcons/starIcon.png'),
     goldCulinaryIcon: require('../assets/icons/blackInappIcons/starIcon.png'),
+    neshineUpTitle: 'Shine Spots✨'
   },
 
   {
     id: 2,
-    screen: 'Blog',
+    screen: 'NeshineBlog',
     whiteCulinaryIcon: require('../assets/icons/inappIcons/blogIcon.png'),
     goldCulinaryIcon: require('../assets/icons/blackInappIcons/blogIcon.png'),
+    neshineUpTitle: 'Cultural Blog'
   },
   {
     id: 5,
-    screen: 'Top5Restaurants',
+    screen: 'GalleryScreen',
     whiteCulinaryIcon: require('../assets/icons/inappIcons/galeryIcon.png'),
     goldCulinaryIcon: require('../assets/icons/blackInappIcons/galeryIcon.png'),
+    neshineUpTitle: 'Photogallery'
   },
 ]
 
@@ -96,8 +101,55 @@ const HomeScreen = () => {
   const [selectedCulinaryRestaurat, setSelectedCulinaryRestaurat] = useState(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [culinaryDots, setCulinaryDots] = useState('');
+  const [isNeshineQuizStarted, setIsNeshineQuizStarted] = useState(false);
   const [isNeshineWelcomeWasVisible, setIsNeshineWelcomeWasVisible] = useState(false);
-  const [loadingNeshineWelcomeApp, setLoadingNeshineWelcomeApp] = useState(true);
+  const [availableUntil, setAvailableUntil] = useState(null);
+  const [currentTime, setCurrentTime] = useState(Date.now());
+
+  const isQuizAvailable = availableUntil === null;
+
+  useEffect(() => {
+    const checkAvailability = async () => {
+      try {
+        const finishTimeStr = await AsyncStorage.getItem('quizFinishTime');
+        if (finishTimeStr) {
+          const finishTime = new Date(finishTimeStr);
+          const today = new Date();
+
+          if (
+            finishTime.getDate() === today.getDate() &&
+            finishTime.getMonth() === today.getMonth() &&
+            finishTime.getFullYear() === today.getFullYear()
+          ) {
+            const nextMidnight = new Date(today);
+            nextMidnight.setDate(today.getDate() + 1);
+            nextMidnight.setHours(0, 0, 0, 0);
+
+            if (Date.now() < nextMidnight.getTime()) {
+              setAvailableUntil(nextMidnight.getTime());
+            } else {
+              setAvailableUntil(null);
+            }
+          } else {
+            setAvailableUntil(null);
+          }
+        } else {
+          setAvailableUntil(null);
+        }
+      } catch (error) {
+        console.error('Error checking quiz availability:', error);
+      }
+    };
+
+    checkAvailability();
+
+    const intervalId = setInterval(() => {
+      setCurrentTime(Date.now());
+      checkAvailability();
+    }, 60000); // update every minute
+
+    return () => clearInterval(intervalId);
+  }, [selectedCulinaryScreen]);
 
   useEffect(() => {
     const loadNeshineWelcome = async () => {
@@ -114,8 +166,6 @@ const HomeScreen = () => {
         }
       } catch (error) {
         console.error('Error loading of neshine welcome', error);
-      } finally {
-        setLoadingNeshineWelcomeApp(false);
       }
     };
     loadNeshineWelcome();
@@ -222,6 +272,10 @@ const HomeScreen = () => {
     console.log('generatedCulinaryRestaurant:', generatedCulinaryRestaurant);
   }, [generatedCulinaryRestaurant])
 
+  useEffect(() => {
+    setIsNeshineQuizStarted(false);
+  }, [selectedCulinaryScreen])
+
   return (
     <View style={{
       backgroundColor: '#171717',
@@ -258,7 +312,7 @@ const HomeScreen = () => {
             justifyContent: 'center',
             backgroundColor: selectedCulinaryScreen === 'WelcomePage' ? '#FDCC06' : 'transparent',
             borderColor: 'white',
-            borderWidth: selectedCulinaryScreen === 'NeshineQuiz' ? 0 : dimensions.width * 0.003,
+            borderWidth: selectedCulinaryScreen === 'WelcomePage' ? 0 : dimensions.width * 0.003,
           }}>
           <Image
             source={selectedCulinaryScreen === 'WelcomePage'
@@ -287,7 +341,13 @@ const HomeScreen = () => {
             flex: 1,
             alignSelf: 'center',
           }}>
-          Welcome Page
+          {
+            selectedCulinaryScreen === 'WelcomePage'
+              ? 'Welcome Page'
+              : selectedCulinaryScreen === 'NeshineQuiz'
+                ? 'Shine quiz'
+                : bottomBtns.find(button => button.screen === selectedCulinaryScreen)?.neshineUpTitle
+          }
         </Text>
 
         <TouchableOpacity
@@ -316,6 +376,29 @@ const HomeScreen = () => {
             }}
             resizeMode='contain'
           />
+          {selectedCulinaryScreen !== 'NeshineQuiz' && (
+            <View style={{
+              width: dimensions.width * 0.143,
+              borderRadius: dimensions.width * 0.5,
+              backgroundColor: '#FDCC06',
+              position: 'absolute',
+              bottom: -dimensions.height * 0.007,
+
+            }}>
+              <Text
+                style={{
+                  fontSize: dimensions.width * 0.028,
+                  fontFamily: fontKarlaRegular,
+                  fontWeight: 400,
+                  color: 'black',
+                  textAlign: 'center',
+                  alignSelf: 'center',
+                  paddingVertical: dimensions.height * 0.0024,
+                }}>
+                {isQuizAvailable ? 'Available' : '23:59'}
+              </Text>
+            </View>
+          )}
         </TouchableOpacity>
       </View>
       {selectedCulinaryScreen === 'Home' ? (
@@ -525,7 +608,7 @@ const HomeScreen = () => {
                           onPress={() => {
                             setSelectedCulinaryRestaurat(generatedCulinaryRestaurant);
                             setIsCulinaryMapRestaurantVisible(true);
-                            setSelectedCulinaryScreen('CulinaryMap');
+                            setSelectedCulinaryScreen('NeshineMap');
                           }}
                           style={{
                             alignSelf: 'center',
@@ -781,16 +864,18 @@ const HomeScreen = () => {
             </>
           )}
         </SafeAreaView>
-      ) : selectedCulinaryScreen === 'Favourites' ? (
+      ) : selectedCulinaryScreen === 'NeshineFavorites' ? (
         <FavouritesScreen setSelectedCulinaryScreen={setSelectedCulinaryScreen} setSelectedCulinaryRestaurat={setSelectedCulinaryRestaurat} savedCulinaryRestaurats={savedCulinaryRestaurats} setSavedCulinaryRestaurats={setSavedCulinaryRestaurats} setIsCulinaryMapRestaurantVisible={setIsCulinaryMapRestaurantVisible} />
-      ) : selectedCulinaryScreen === 'CulinaryMap' ? (
-        <CulinaryMapScreen setSelectedCulinaryScreen={setSelectedCulinaryScreen} selectedCulinaryRestaurat={selectedCulinaryRestaurat} isCulinaryMapRestaurantVisible={isCulinaryMapRestaurantVisible} setIsCulinaryMapRestaurantVisible={setIsCulinaryMapRestaurantVisible} setSavedCulinaryRestaurats={setSavedCulinaryRestaurats} savedCulinaryRestaurats={savedCulinaryRestaurats} selectedCulinaryScreen={selectedCulinaryScreen} />
-      ) : selectedCulinaryScreen === 'Top5Restaurants' ? (
-        <GalleryScreen setSelectedCulinaryScreen={setSelectedCulinaryScreen} setSavedCulinaryRestaurats={setSavedCulinaryRestaurats} savedCulinaryRestaurats={savedCulinaryRestaurats} />
-      ) : selectedCulinaryScreen === 'Blog' ? (
+      ) : selectedCulinaryScreen === 'NeshineMap' ? (
+        <NeshineMapScreen setSelectedCulinaryScreen={setSelectedCulinaryScreen} selectedCulinaryRestaurat={selectedCulinaryRestaurat} isCulinaryMapRestaurantVisible={isCulinaryMapRestaurantVisible} setIsCulinaryMapRestaurantVisible={setIsCulinaryMapRestaurantVisible} setSavedCulinaryRestaurats={setSavedCulinaryRestaurats} savedCulinaryRestaurats={savedCulinaryRestaurats} selectedCulinaryScreen={selectedCulinaryScreen} />
+      ) : selectedCulinaryScreen === 'GalleryScreen' ? (
+        <GalleryScreen setSelectedCulinaryScreen={setSelectedCulinaryScreen} galeryData={galeryData} setSavedCulinaryRestaurats={setSavedCulinaryRestaurats} savedCulinaryRestaurats={savedCulinaryRestaurats} />
+      ) : selectedCulinaryScreen === 'NeshineBlog' ? (
         <BlogScreen setSelectedCulinaryScreen={setSelectedCulinaryScreen} setSavedCulinaryRestaurats={setSavedCulinaryRestaurats} savedCulinaryRestaurats={savedCulinaryRestaurats} />
       ) : selectedCulinaryScreen === 'WelcomePage' ? (
         <WelcomePageScreen setSelectedCulinaryScreen={setSelectedCulinaryScreen} setSavedCulinaryRestaurats={setSavedCulinaryRestaurats} savedCulinaryRestaurats={savedCulinaryRestaurats} />
+      ) : selectedCulinaryScreen === 'NeshineQuiz' ? (
+        <NeshineQuizzScreen setSelectedCulinaryScreen={setSelectedCulinaryScreen} selectedCulinaryScreen={selectedCulinaryScreen} isNeshineQuizStarted={isNeshineQuizStarted} setIsNeshineQuizStarted={setIsNeshineQuizStarted} />
       ) : null}
 
       <View

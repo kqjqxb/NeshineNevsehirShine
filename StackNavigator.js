@@ -33,43 +33,43 @@ const CulinaryCrovvnStack = () => {
 
 const AppNavigator = () => {
   const dispatch = useDispatch();
-  const [isCulinaryOnboardWasVisible, setIsCulinaryOnboardWasVisible] = useState(false);
+  const [isNeshineOnboardNevWasVisible, setIsNeshineOnboardNevWasVisible] = useState(false);
   const { user, setUser } = useContext(UserContext);
 
 
-  const [initializingCulinaryMelbourneApp, setInitializingCulinaryMelbourneApp] = useState(true);
+  const [initializingNeshineNevsehirApp, setInitializingNeshineNevsehirApp] = useState(true);
 
   useEffect(() => {
     dispatch(loadUserData());
   }, [dispatch]);
 
   useEffect(() => {
-    const loadCulinaryMelbourneUser = async () => {
+    const loadNeshineNevsehirUser = async () => {
       try {
         const deviceId = await DeviceInfo.getUniqueId();
         const storageKey = `currentUser_${deviceId}`;
-        const storedCulinaryMelbourneUser = await AsyncStorage.getItem(storageKey);
-        const isCulinaryMelbourneOnboardingVisible = await AsyncStorage.getItem('isCulinaryMelbourneOnboardingVisible');
+        const storedNeshineNevsehirUser = await AsyncStorage.getItem(storageKey);
+        const isNeshineNevsehirOnboardingVisible = await AsyncStorage.getItem('isNeshineNevsehirOnboardingVisible');
 
-        if (storedCulinaryMelbourneUser) {
-          setUser(JSON.parse(storedCulinaryMelbourneUser));
-          setIsCulinaryOnboardWasVisible(false);
-        } else if (isCulinaryMelbourneOnboardingVisible) {
-          setIsCulinaryOnboardWasVisible(false);
+        if (storedNeshineNevsehirUser) {
+          setUser(JSON.parse(storedNeshineNevsehirUser));
+          setIsNeshineOnboardNevWasVisible(false);
+        } else if (isNeshineNevsehirOnboardingVisible) {
+          setIsNeshineOnboardNevWasVisible(false);
         } else {
-          setIsCulinaryOnboardWasVisible(true);
-          await AsyncStorage.setItem('isCulinaryMelbourneOnboardingVisible', 'true');
+          setIsNeshineOnboardNevWasVisible(true);
+          await AsyncStorage.setItem('isNeshineNevsehirOnboardingVisible', 'true');
         }
       } catch (error) {
-        console.error('Error loading of melbourne user', error);
+        console.error('Error loading of neshine user', error);
       } finally {
-        setInitializingCulinaryMelbourneApp(false);
+        setInitializingNeshineNevsehirApp(false);
       }
     };
-    loadCulinaryMelbourneUser();
+    loadNeshineNevsehirUser();
   }, [setUser]);
 
-  if (initializingCulinaryMelbourneApp) {
+  if (initializingNeshineNevsehirApp) {
     return (
       <View style={{
         justifyContent: 'center',
@@ -84,7 +84,7 @@ const AppNavigator = () => {
 
   return (
     <NavigationContainer>
-        <Stack.Navigator initialRouteName={isCulinaryOnboardWasVisible ? 'OnboardingScreen' : 'Home'}>
+        <Stack.Navigator initialRouteName={isNeshineOnboardNevWasVisible ? 'OnboardingScreen' : 'Home'}>
           <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
           <Stack.Screen name="OnboardingScreen" component={OnboardingScreen} options={{ headerShown: false }} />
           <Stack.Screen name="LoadingCulinaryCrovnApp" component={LoadingCulinaryCrovvnScreen} options={{ headerShown: false }} />

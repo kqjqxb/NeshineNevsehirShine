@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 
-import { ChevronLeftIcon } from 'react-native-heroicons/outline';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -21,13 +20,11 @@ import localDelightsData from '../components/localDelightsData';
 
 const allCulinaryRestaurantsData = [...mysticWondersData, ...goldenHeritageData, ...sunsetSerenityData, ...localDelightsData];
 
-const fontK2DRegular = 'K2D-Regular';
-
 const fontKarlaRegular = 'Karla-Regular';
 const fontKarlaLight = 'Karla-Light';
 const fontKarlaExtraLight = 'Karla-ExtraLight';
 
-const CulinaryMapScreen = ({ selectedCulinaryRestaurat, setSelectedCulinaryScreen, isCulinaryMapRestaurantVisible, setIsCulinaryMapRestaurantVisible, setSavedCulinaryRestaurats, savedCulinaryRestaurats }) => {
+const NeshineMapScreen = ({ selectedCulinaryRestaurat, setSelectedCulinaryScreen, isCulinaryMapRestaurantVisible, setIsCulinaryMapRestaurantVisible, setSavedCulinaryRestaurats, savedCulinaryRestaurats }) => {
     const [dimensions, setDimensions] = useState(Dimensions.get('window'));
 
     const shareCulinaryRestaurant = async (title) => {
@@ -284,4 +281,4 @@ const CulinaryMapScreen = ({ selectedCulinaryRestaurat, setSelectedCulinaryScree
     );
 };
 
-export default CulinaryMapScreen;
+export default NeshineMapScreen;
