@@ -169,7 +169,6 @@ const NeshineMapScreen = ({ selectedNeshinePlace, setSelectedNeshineScreen, isNe
                                 alignItems: 'center',
                                 alignSelf: 'center',
                                 width: '100%',
-                                marginBottom: dimensions.height * 0.027,
                             }}>
                                 <TouchableOpacity
                                     onPress={() => {

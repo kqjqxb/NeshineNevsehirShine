@@ -159,7 +159,6 @@ const NeshineFavouritesScreen = ({ setSelectedNeshineScreen, savedNeshinePlaces,
                   marginTop: dimensions.height * 0.0241,
                   justifyContent: 'space-between',
                   alignItems: 'center',
-                  marginBottom: dimensions.height * 0.027,
                   alignSelf: 'center',
                   flexDirection: 'row',
                 }}>
