@@ -12,12 +12,12 @@ import { UserProvider, UserContext } from './src/context/UserContext';
 import { Provider, useDispatch } from 'react-redux';
 import store from './src/redux/store';
 import { loadUserData } from './src/redux/userSlice';
-import LoadingCulinaryCrovvnScreen from './src/screens/LoadingCulinaryCrovvnScreen';
+import LoadingNeshineScreen from './src/screens/LoadingNeshineScreen';
 
 
 const Stack = createNativeStackNavigator();
 
-const CulinaryCrovvnStack = () => {
+const NeshineStack = () => {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Provider store={store}>
@@ -35,7 +35,6 @@ const AppNavigator = () => {
   const dispatch = useDispatch();
   const [isNeshineOnboardNevWasVisible, setIsNeshineOnboardNevWasVisible] = useState(false);
   const { user, setUser } = useContext(UserContext);
-
 
   const [initializingNeshineNevsehirApp, setInitializingNeshineNevsehirApp] = useState(true);
 
@@ -87,11 +86,11 @@ const AppNavigator = () => {
         <Stack.Navigator initialRouteName={isNeshineOnboardNevWasVisible ? 'OnboardingScreen' : 'Home'}>
           <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
           <Stack.Screen name="OnboardingScreen" component={OnboardingScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="LoadingCulinaryCrovnApp" component={LoadingCulinaryCrovvnScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="LoadingNeshineApp" component={LoadingNeshineScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
     </NavigationContainer>
   );
 };
 
 
-export default CulinaryCrovvnStack;
+export default NeshineStack;

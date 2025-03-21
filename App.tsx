@@ -1,8 +1,8 @@
 import React from 'react';
-import CulinaryCrovvnStack from './StackNavigator';
+import NeshineStack from './StackNavigator';
 
 function App() {
-  return <CulinaryCrovvnStack />;
+  return <NeshineStack />;
 }
 
 export default App;

@@ -12,16 +12,11 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B671DCCB2FC945838F8C86 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
 		5D2D469871034A069FAA62F0 /* Karla-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 874BF653CC8A48D9A121EC0F /* Karla-SemiBold.ttf */; };
-		70A7BF474B9C4DA3A74BC308 /* K2D-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 59B2039ECAAD461A90672F75 /* K2D-Regular.ttf */; };
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		83A04381F9964F53AF8F8057 /* Karla-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 926192489D4F4F3E85D3F69C /* Karla-Bold.ttf */; };
-		9F393A7C5CC249D68DC0011A /* K2D-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CDA5EB547B17437397337A1D /* K2D-ExtraBold.ttf */; };
 		BA1BE803218D418F9E20251A /* Karla-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 89388D411C004A47AF4BEB10 /* Karla-Regular.ttf */; };
-		BC203E868E8544C3B70C3C0E /* K2D-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9CA103D3D36648D1B786E29A /* K2D-Bold.ttf */; };
 		CA386689B0D643D58FF5D6A7 /* Karla-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 21A9C45548FC4A60A2F04C56 /* Karla-ExtraLight.ttf */; };
-		DCAF4DDA7BFA4A719BA4E53C /* K2D-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6E12AC2DB14E4FF49C082246 /* K2D-Medium.ttf */; };
-		F2701AEF584844D1B46CACD8 /* K2D-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A24CC6090C1B450DA8915424 /* K2D-SemiBold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,18 +27,13 @@
 		21A9C45548FC4A60A2F04C56 /* Karla-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Karla-ExtraLight.ttf"; path = "../src/assets/fonts/Karla-ExtraLight.ttf"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-NeshineNevsehirShine.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NeshineNevsehirShine.debug.xcconfig"; path = "Target Support Files/Pods-NeshineNevsehirShine/Pods-NeshineNevsehirShine.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-NeshineNevsehirShine.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NeshineNevsehirShine.release.xcconfig"; path = "Target Support Files/Pods-NeshineNevsehirShine/Pods-NeshineNevsehirShine.release.xcconfig"; sourceTree = "<group>"; };
-		59B2039ECAAD461A90672F75 /* K2D-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "K2D-Regular.ttf"; path = "../src/assets/fonts/K2D-Regular.ttf"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-NeshineNevsehirShine.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NeshineNevsehirShine.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6E12AC2DB14E4FF49C082246 /* K2D-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "K2D-Medium.ttf"; path = "../src/assets/fonts/K2D-Medium.ttf"; sourceTree = "<group>"; };
 		6EB6784010EF476E824906A0 /* Karla-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Karla-ExtraBold.ttf"; path = "../src/assets/fonts/Karla-ExtraBold.ttf"; sourceTree = "<group>"; };
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = NeshineNevsehirShine/AppDelegate.swift; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = NeshineNevsehirShine/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		874BF653CC8A48D9A121EC0F /* Karla-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Karla-SemiBold.ttf"; path = "../src/assets/fonts/Karla-SemiBold.ttf"; sourceTree = "<group>"; };
 		89388D411C004A47AF4BEB10 /* Karla-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Karla-Regular.ttf"; path = "../src/assets/fonts/Karla-Regular.ttf"; sourceTree = "<group>"; };
 		926192489D4F4F3E85D3F69C /* Karla-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Karla-Bold.ttf"; path = "../src/assets/fonts/Karla-Bold.ttf"; sourceTree = "<group>"; };
-		9CA103D3D36648D1B786E29A /* K2D-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "K2D-Bold.ttf"; path = "../src/assets/fonts/K2D-Bold.ttf"; sourceTree = "<group>"; };
-		A24CC6090C1B450DA8915424 /* K2D-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "K2D-SemiBold.ttf"; path = "../src/assets/fonts/K2D-SemiBold.ttf"; sourceTree = "<group>"; };
-		CDA5EB547B17437397337A1D /* K2D-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "K2D-ExtraBold.ttf"; path = "../src/assets/fonts/K2D-ExtraBold.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -113,11 +103,6 @@
 		928F272471604CA1A316985F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				9CA103D3D36648D1B786E29A /* K2D-Bold.ttf */,
-				CDA5EB547B17437397337A1D /* K2D-ExtraBold.ttf */,
-				6E12AC2DB14E4FF49C082246 /* K2D-Medium.ttf */,
-				59B2039ECAAD461A90672F75 /* K2D-Regular.ttf */,
-				A24CC6090C1B450DA8915424 /* K2D-SemiBold.ttf */,
 				926192489D4F4F3E85D3F69C /* Karla-Bold.ttf */,
 				6EB6784010EF476E824906A0 /* Karla-ExtraBold.ttf */,
 				21A9C45548FC4A60A2F04C56 /* Karla-ExtraLight.ttf */,
@@ -200,11 +185,6 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B671DCCB2FC945838F8C86 /* PrivacyInfo.xcprivacy in Resources */,
-				BC203E868E8544C3B70C3C0E /* K2D-Bold.ttf in Resources */,
-				9F393A7C5CC249D68DC0011A /* K2D-ExtraBold.ttf in Resources */,
-				DCAF4DDA7BFA4A719BA4E53C /* K2D-Medium.ttf in Resources */,
-				70A7BF474B9C4DA3A74BC308 /* K2D-Regular.ttf in Resources */,
-				F2701AEF584844D1B46CACD8 /* K2D-SemiBold.ttf in Resources */,
 				83A04381F9964F53AF8F8057 /* Karla-Bold.ttf in Resources */,
 				07A6EBE19E984EDAAEDF6F4D /* Karla-ExtraBold.ttf in Resources */,
 				CA386689B0D643D58FF5D6A7 /* Karla-ExtraLight.ttf in Resources */,

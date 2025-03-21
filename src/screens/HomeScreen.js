@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LinearGradient from 'react-native-linear-gradient';
-import FavouritesScreen from './FavouritesScreen';
+import NeshineFavouritesScreen from './NeshineFavouritesScreen';
 import NeshineMapScreen from './NeshineMapScreen';
 
 import mysticWondersData from '../components/mysticWondersData';
@@ -19,12 +19,12 @@ import sunsetSerenityData from '../components/sunsetSerenityData';
 import localDelightsData from '../components/localDelightsData';
 import Loader from '../components/Loader';
 import GalleryScreen from './GalleryScreen';
-import BlogScreen from './BlogScreen';
+import NeshineBlogScreen from './NeshineBlogScreen';
 import WelcomePageScreen from './WelcomePageScreen';
 import NeshineQuizzScreen from './NeshineQuizzScreen';
+import LoadingNeshineScreen from './LoadingNeshineScreen';
 
 const fontKarlaRegular = 'Karla-Regular';
-const fontKarlaLight = 'Karla-Light';
 const fontKarlaExtraLight = 'Karla-ExtraLight';
 
 const galeryData = [{ id: 13, image: require('../assets/images/neshinePlacesImages/galleryImage.png'), title: 'Baloons in the sky' }, ...goldenHeritageData, ...localDelightsData, ...mysticWondersData, ...sunsetSerenityData];
@@ -68,7 +68,7 @@ const bottomBtns = [
   },
 ]
 
-const categoryButtons = [
+const neshineCategoryButtons = [
   {
     id: 1,
     title: 'Golden Heritage',
@@ -93,18 +93,19 @@ const categoryButtons = [
 
 const HomeScreen = () => {
   const [dimensions, setDimensions] = useState(Dimensions.get('window'));
-  const [selectedCulinaryScreen, setSelectedCulinaryScreen] = useState('Home');
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [savedCulinaryRestaurats, setSavedCulinaryRestaurats] = useState([]);
-  const [isCulinaryMapRestaurantVisible, setIsCulinaryMapRestaurantVisible] = useState(false);
-  const [generatedCulinaryRestaurant, setGeneratedCulinaryRestaurant] = useState(null);
-  const [selectedCulinaryRestaurat, setSelectedCulinaryRestaurat] = useState(null);
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [culinaryDots, setCulinaryDots] = useState('');
+  const [selectedNeshineScreen, setSelectedNeshineScreen] = useState('LoadingNeshine');
+  const [selectedNeshineCategory, setSelectedNeshineCategory] = useState(null);
+  const [savedNeshinePlaces, setSavedNeshinePlaces] = useState([]);
+  const [isNeshineMapPlaceVisible, setIsNeshineMapPlaceVisible] = useState(false);
+  const [generatedNeshinePlace, setGeneratedNeshinePlace] = useState(null);
+  const [selectedNeshinePlace, setSelectedNeshinePlace] = useState(null);
+  const [isGeneratingNeshinePlace, setIsGeneratingNeshinePlace] = useState(false);
+  const [neshineDots, setNeshineDots] = useState('');
   const [isNeshineQuizStarted, setIsNeshineQuizStarted] = useState(false);
   const [isNeshineWelcomeWasVisible, setIsNeshineWelcomeWasVisible] = useState(false);
   const [availableUntil, setAvailableUntil] = useState(null);
   const [currentTime, setCurrentTime] = useState(Date.now());
+  const [prevGeneratedNeshinePlace, setPrevGeneratedNeshinePlace] = useState(null);
 
   const isQuizAvailable = availableUntil === null;
 
@@ -146,10 +147,10 @@ const HomeScreen = () => {
     const intervalId = setInterval(() => {
       setCurrentTime(Date.now());
       checkAvailability();
-    }, 60000); // update every minute
+    }, 60000);
 
     return () => clearInterval(intervalId);
-  }, [selectedCulinaryScreen]);
+  }, [selectedNeshineScreen]);
 
   useEffect(() => {
     const loadNeshineWelcome = async () => {
@@ -160,7 +161,7 @@ const HomeScreen = () => {
         if (isNeshineWelcomeWasVisible) {
           setIsNeshineWelcomeWasVisible(false);
         } else {
-          setSelectedCulinaryScreen('WelcomePage');
+          setSelectedNeshineScreen('WelcomePage');
           setIsNeshineWelcomeWasVisible(true);
           await AsyncStorage.setItem('isNeshineWelcomeWasVisible', 'true');
         }
@@ -173,11 +174,11 @@ const HomeScreen = () => {
 
   const loadCulinaryRestaurats = async () => {
     try {
-      const storedCulinaryRestaurats = await AsyncStorage.getItem('savedCulinaryRestaurats');
-      const parsedCulinaryRestaurats = storedCulinaryRestaurats ? JSON.parse(storedCulinaryRestaurats) : [];
-      setSavedCulinaryRestaurats(parsedCulinaryRestaurats);
+      const storedNeshinePlaces = await AsyncStorage.getItem('savedNeshinePlaces');
+      const parsedNeshinePlaces = storedNeshinePlaces ? JSON.parse(storedNeshinePlaces) : [];
+      setSavedNeshinePlaces(parsedNeshinePlaces);
     } catch (error) {
-      console.error('Error loading savedCulinaryRestaurats:', error);
+      console.error('Error loading savedNeshinePlaces:', error);
     }
   };
 
@@ -200,60 +201,53 @@ const HomeScreen = () => {
     }
   };
 
-  const shinesData = getShineDataByCategory(selectedCategory?.title);
+  const shinesData = getShineDataByCategory(selectedNeshineCategory?.title);
 
-  const isCulinaryRestaurantSaved = (thisRest) => {
-    return savedCulinaryRestaurats.some((kn) => kn.id === thisRest?.id);
+  const isNeshinePlaceSaved = (shinePlace) => {
+    return savedNeshinePlaces.some((nPlace) => nPlace.id === shinePlace?.id);
   };
 
-  const saveCulinaryRestaurant = async (rest) => {
+  const saveNeshinePlace = async (neshinePlace) => {
     try {
-      const savedRest = await AsyncStorage.getItem('savedCulinaryRestaurats');
-      const parsedRests = savedRest ? JSON.parse(savedRest) : [];
+      const savedNeshinePlace = await AsyncStorage.getItem('savedNeshinePlaces');
+      const parsedNeshinePlaces = savedNeshinePlace ? JSON.parse(savedNeshinePlace) : [];
 
-      const thisRestIndex = parsedRests.findIndex((r) => r.id === rest.id);
+      const thisShinePlaceIndex = parsedNeshinePlaces.findIndex((r) => r.id === neshinePlace.id);
 
-      if (thisRestIndex === -1) {
-        const updatedRests = [rest, ...parsedRests];
-        await AsyncStorage.setItem('savedCulinaryRestaurats', JSON.stringify(updatedRests));
-        setSavedCulinaryRestaurats(updatedRests);
-        console.log('rest was saved');
+      if (thisShinePlaceIndex === -1) {
+        const updatedShinePlaces = [neshinePlace, ...parsedNeshinePlaces];
+        await AsyncStorage.setItem('savedNeshinePlaces', JSON.stringify(updatedShinePlaces));
+        setSavedNeshinePlaces(updatedShinePlaces);
       } else {
-        const updatedRests = parsedRests.filter((r) => r.id !== rest.id);
-        await AsyncStorage.setItem('savedCulinaryRestaurats', JSON.stringify(updatedRests));
-        setSavedCulinaryRestaurats(updatedRests);
-        console.log('rest was deleted');
+        const updatedShinePlaces = parsedNeshinePlaces.filter((r) => r.id !== neshinePlace.id);
+        await AsyncStorage.setItem('savedNeshinePlaces', JSON.stringify(updatedShinePlaces));
+        setSavedNeshinePlaces(updatedShinePlaces);
       }
     } catch (error) {
-      console.error('error of save/delete rest:', error);
+      console.error('error of save/delete shine place:', error);
     }
   };
 
-  const handleGenerateRestaurant = () => {
-    setIsGenerating(true);
-    const randomIndex = Math.floor(Math.random() * shinesData.length);
-    const randomRest = shinesData[randomIndex];
-    setGeneratedCulinaryRestaurant(randomRest);
-    setSelectedCulinaryRestaurat(randomRest);
+  const handleGenerateShinePlace = () => {
+    setIsGeneratingNeshinePlace(true);
+    let randomShinePlace;
+    if (shinesData.length === 0) return;
+    do {
+      const randomIndex = Math.floor(Math.random() * shinesData.length);
+      randomShinePlace = shinesData[randomIndex];
+    } while (prevGeneratedNeshinePlace && randomShinePlace.id === prevGeneratedNeshinePlace.id);
+    setGeneratedNeshinePlace(randomShinePlace);
+    setSelectedNeshinePlace(randomShinePlace);
+    setPrevGeneratedNeshinePlace(randomShinePlace);
     setTimeout(() => {
-      setIsGenerating(false);
+      setIsGeneratingNeshinePlace(false);
     }, 1000);
-  }
-
-  const shareCulinaryApp = async () => {
-    try {
-      await Share.share({
-        message: `Join Culinary Crovvn - Melbourn!${appLink}`,
-      });
-    } catch (error) {
-      console.error('Error share:', error);
-    }
   };
 
-  const shareCulinaryRestaurant = async (title) => {
+  const shareNeshinePlace = async (title) => {
     try {
       await Share.share({
-        message: `Let's go to the restaurant ${title}! I found it on the Culinary Crovvn - Melbourn!`,
+        message: `Let's go to the restaurant ${title}! I found it on the NeShine - Nevşehir Shine!`,
       });
     } catch (error) {
       console.error('Error share:', error);
@@ -261,155 +255,153 @@ const HomeScreen = () => {
   };
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCulinaryDots(prevDots => (prevDots.length < 3 ? prevDots + '.' : ''));
+    const intervalNeshine = setInterval(() => {
+      setNeshineDots(prevDots => (prevDots.length < 3 ? prevDots + '.' : ''));
     }, 250);
 
-    return () => clearInterval(interval);
+    return () => clearInterval(intervalNeshine);
   }, []);
 
   useEffect(() => {
-    console.log('generatedCulinaryRestaurant:', generatedCulinaryRestaurant);
-  }, [generatedCulinaryRestaurant])
-
-  useEffect(() => {
     setIsNeshineQuizStarted(false);
-  }, [selectedCulinaryScreen])
+  }, [selectedNeshineScreen])
 
   return (
     <View style={{
       backgroundColor: '#171717',
       flex: 1,
-      height: dimensions.height,
       width: dimensions.width,
+      height: dimensions.height,
     }}>
-      <View style={{
-        width: dimensions.width,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        alignSelf: 'center',
-        backgroundColor: '#0C0C0C',
-        borderBottomLeftRadius: dimensions.width * 0.05,
-        borderBottomRightRadius: dimensions.width * 0.05,
-        height: dimensions.height * 0.143,
-        shadowColor: '#FDCC06',
-        shadowOffset: { width: 0, height: dimensions.height * 0.0019 },
-        shadowOpacity: 1,
-        shadowRadius: dimensions.height * 0.0001,
-        paddingHorizontal: dimensions.width * 0.05,
-        paddingTop: dimensions.height * 0.04,
-      }}>
-        <TouchableOpacity
-          onPress={() => {
-            setSelectedCulinaryScreen('WelcomePage');
-          }}
-          style={{
-            width: dimensions.width * 0.143,
-            height: dimensions.width * 0.143,
-            borderRadius: dimensions.width * 0.04,
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: selectedCulinaryScreen === 'WelcomePage' ? '#FDCC06' : 'transparent',
-            borderColor: 'white',
-            borderWidth: selectedCulinaryScreen === 'WelcomePage' ? 0 : dimensions.width * 0.003,
-          }}>
-          <Image
-            source={selectedCulinaryScreen === 'WelcomePage'
-              ? require('../assets/icons/blackInappIcons/homeIcon.png')
-              : require('../assets/icons/inappIcons/homeIcon.png')
-            }
-            style={{
-              width: dimensions.width * 0.061,
-              height: dimensions.width * 0.061,
-              alignSelf: 'center',
+      {selectedNeshineScreen !== 'LoadingNeshine' && (
+        <View style={{
+          width: dimensions.width,
+          justifyContent: 'space-between',
+          backgroundColor: '#0C0C0C',
+          alignItems: 'center',
+          alignSelf: 'center',
+          flexDirection: 'row',
+          borderBottomRightRadius: dimensions.width * 0.05,
+          height: dimensions.height * 0.143,
+          shadowColor: '#FDCC06',
+          borderBottomLeftRadius: dimensions.width * 0.05,
+          paddingTop: dimensions.height * 0.04,
+          shadowOffset: { width: 0, height: dimensions.height * 0.0019 },
+          shadowRadius: dimensions.height * 0.0001,
+          paddingHorizontal: dimensions.width * 0.05,
+          shadowOpacity: 1,
+        }}>
+          <TouchableOpacity
+            onPress={() => {
+              setSelectedNeshineScreen('WelcomePage');
             }}
-            resizeMode='contain'
-          />
-
-        </TouchableOpacity>
-
-        <Text
-          style={{
-            marginTop: dimensions.height * 0.007,
-            fontSize: dimensions.width * 0.059,
-            fontFamily: fontKarlaRegular,
-            fontWeight: 600,
-            color: 'white',
-            textAlign: 'center',
-            alignSelf: 'center',
-            flex: 1,
-            alignSelf: 'center',
-          }}>
-          {
-            selectedCulinaryScreen === 'WelcomePage'
-              ? 'Welcome Page'
-              : selectedCulinaryScreen === 'NeshineQuiz'
-                ? 'Shine quiz'
-                : bottomBtns.find(button => button.screen === selectedCulinaryScreen)?.neshineUpTitle
-          }
-        </Text>
-
-        <TouchableOpacity
-          onPress={() => {
-            setSelectedCulinaryScreen('NeshineQuiz')
-          }}
-          style={{
-            width: dimensions.width * 0.143,
-            height: dimensions.width * 0.143,
-            borderRadius: dimensions.width * 0.04,
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: selectedCulinaryScreen === 'NeshineQuiz' ? '#FDCC06' : 'transparent',
-            borderColor: 'white',
-            borderWidth: selectedCulinaryScreen !== 'NeshineQuiz' ? dimensions.width * 0.003 : 0,
-          }}>
-          <Image
-            source={selectedCulinaryScreen === 'NeshineQuiz'
-              ? require('../assets/icons/blackInappIcons/quizIcon.png')
-              : require('../assets/icons/inappIcons/quizIcon.png')
-            }
             style={{
-              width: dimensions.width * 0.061,
-              height: dimensions.width * 0.061,
-              alignSelf: 'center',
-            }}
-            resizeMode='contain'
-          />
-          {selectedCulinaryScreen !== 'NeshineQuiz' && (
-            <View style={{
               width: dimensions.width * 0.143,
-              borderRadius: dimensions.width * 0.5,
-              backgroundColor: '#FDCC06',
-              position: 'absolute',
-              bottom: -dimensions.height * 0.007,
-
+              height: dimensions.width * 0.143,
+              borderRadius: dimensions.width * 0.04,
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: selectedNeshineScreen === 'WelcomePage' ? '#FDCC06' : 'transparent',
+              borderColor: 'white',
+              borderWidth: selectedNeshineScreen === 'WelcomePage' ? 0 : dimensions.width * 0.003,
             }}>
-              <Text
-                style={{
-                  fontSize: dimensions.width * 0.028,
-                  fontFamily: fontKarlaRegular,
-                  fontWeight: 400,
-                  color: 'black',
-                  textAlign: 'center',
-                  alignSelf: 'center',
-                  paddingVertical: dimensions.height * 0.0024,
-                }}>
-                {isQuizAvailable ? 'Available' : '23:59'}
-              </Text>
-            </View>
-          )}
-        </TouchableOpacity>
-      </View>
-      {selectedCulinaryScreen === 'Home' ? (
+            <Image
+              source={selectedNeshineScreen === 'WelcomePage'
+                ? require('../assets/icons/blackInappIcons/homeIcon.png')
+                : require('../assets/icons/inappIcons/homeIcon.png')
+              }
+              style={{
+                width: dimensions.width * 0.061,
+                height: dimensions.width * 0.061,
+                alignSelf: 'center',
+              }}
+              resizeMode='contain'
+            />
+
+          </TouchableOpacity>
+
+          <Text
+            style={{
+              marginTop: dimensions.height * 0.007,
+              fontSize: dimensions.width * 0.059,
+              fontFamily: fontKarlaRegular,
+              fontWeight: 600,
+              color: 'white',
+              textAlign: 'center',
+              alignSelf: 'center',
+              flex: 1,
+              alignSelf: 'center',
+            }}>
+            {
+              selectedNeshineScreen === 'WelcomePage'
+                ? 'Welcome Page'
+                : selectedNeshineScreen === 'NeshineQuiz'
+                  ? 'Shine quiz'
+                  : bottomBtns.find(button => button.screen === selectedNeshineScreen)?.neshineUpTitle
+            }
+          </Text>
+
+          <TouchableOpacity
+            onPress={() => {
+              setSelectedNeshineScreen('NeshineQuiz')
+            }}
+            style={{
+              width: dimensions.width * 0.143,
+              height: dimensions.width * 0.143,
+              borderRadius: dimensions.width * 0.04,
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: selectedNeshineScreen === 'NeshineQuiz' ? '#FDCC06' : 'transparent',
+              borderColor: 'white',
+              borderWidth: selectedNeshineScreen !== 'NeshineQuiz' ? dimensions.width * 0.003 : 0,
+            }}>
+            <Image
+              source={selectedNeshineScreen === 'NeshineQuiz'
+                ? require('../assets/icons/blackInappIcons/quizIcon.png')
+                : require('../assets/icons/inappIcons/quizIcon.png')
+              }
+              style={{
+                width: dimensions.width * 0.061,
+                height: dimensions.width * 0.061,
+                alignSelf: 'center',
+              }}
+              resizeMode='contain'
+            />
+            {selectedNeshineScreen !== 'NeshineQuiz' && (
+              <View style={{
+                width: dimensions.width * 0.143,
+                borderRadius: dimensions.width * 0.5,
+                backgroundColor: '#FDCC06',
+                position: 'absolute',
+                bottom: -dimensions.height * 0.007,
+
+              }}>
+                <Text
+                  style={{
+                    fontSize: dimensions.width * 0.028,
+                    fontFamily: fontKarlaRegular,
+                    fontWeight: 400,
+                    color: 'black',
+                    textAlign: 'center',
+                    alignSelf: 'center',
+                    paddingVertical: dimensions.height * 0.0024,
+                  }}>
+                  {isQuizAvailable ? 'Available' : '23:59'}
+                </Text>
+              </View>
+            )}
+          </TouchableOpacity>
+        </View>
+      )}
+      {selectedNeshineScreen === 'Home' ? (
         <SafeAreaView style={{
           flex: 1,
           paddingHorizontal: dimensions.width * 0.05,
           width: dimensions.width,
         }}>
-          {!isGenerating ? (
+          {!isGeneratingNeshinePlace ? (
             <>
-              {!generatedCulinaryRestaurant ? (
+              {!generatedNeshinePlace ? (
                 <View >
                   <Text
                     style={{
@@ -444,19 +436,19 @@ const HomeScreen = () => {
                     alignSelf: 'center',
                     marginTop: dimensions.height * 0.019,
                   }}>
-                    {categoryButtons.map((category, index) => (
+                    {neshineCategoryButtons.map((category, index) => (
                       <TouchableOpacity
-                        onPress={() => { setSelectedCategory(category) }}
+                        onPress={() => { setSelectedNeshineCategory(category) }}
                         key={index} style={{
                           borderRadius: dimensions.width * 0.05,
-                          borderColor: selectedCategory === category ? '#F15257' : 'transparent',
+                          borderColor: selectedNeshineCategory === category ? '#F15257' : 'transparent',
                           alignItems: 'center',
                           justifyContent: 'center',
                           width: dimensions.width * 0.44,
                           marginBottom: dimensions.width * 0.04,
                           shadowColor: '#FDCC06',
                           shadowOffset: { width: 0, height: dimensions.height * 0.0021 },
-                          shadowOpacity: selectedCategory === category ? 0.55 : 0,
+                          shadowOpacity: selectedNeshineCategory === category ? 0.55 : 0,
                           shadowRadius: dimensions.width * 0.03,
                           elevation: 5,
                         }}>
@@ -466,7 +458,7 @@ const HomeScreen = () => {
                             width: dimensions.width * 0.43,
                             height: dimensions.width * 0.43,
                             textAlign: 'center',
-                            borderColor: selectedCategory === category ? '#FDCC06' : 'white',
+                            borderColor: selectedNeshineCategory === category ? '#FDCC06' : 'white',
                             borderWidth: dimensions.width * 0.005,
                             borderRadius: dimensions.width * 0.05,
 
@@ -479,7 +471,7 @@ const HomeScreen = () => {
 
                   <TouchableOpacity
                     onPress={() => {
-                      handleGenerateRestaurant();
+                      handleGenerateShinePlace();
                     }}
                     style={{
                       height: dimensions.height * 0.07,
@@ -487,14 +479,14 @@ const HomeScreen = () => {
                       alignItems: 'center',
                       alignSelf: 'center',
                       borderRadius: dimensions.width * 0.5,
-                      opacity: selectedCategory === '' || !selectedCategory ? 0.5 : 1,
+                      opacity: selectedNeshineCategory === '' || !selectedNeshineCategory ? 0.5 : 1,
                       shadowColor: '#FDCC06',
                       shadowOffset: { width: 0, height: dimensions.height * 0.0021 },
                       shadowOpacity: 0.4,
                       shadowRadius: dimensions.width * 0.03,
                       elevation: 5,
                     }}
-                    disabled={selectedCategory === '' || !selectedCategory}
+                    disabled={selectedNeshineCategory === '' || !selectedNeshineCategory}
                   >
                     <LinearGradient
                       colors={['#FFF0B5', '#FDCC06']}
@@ -551,7 +543,7 @@ const HomeScreen = () => {
                     borderWidth: dimensions.width * 0.003,
                   }}>
                     <Image
-                      source={generatedCulinaryRestaurant?.image}
+                      source={generatedNeshinePlace?.image}
                       style={{
                         width: '100%',
                         borderTopLeftRadius: dimensions.width * 0.037,
@@ -577,7 +569,7 @@ const HomeScreen = () => {
                           justifyContent: 'center',
                         }}
                       >
-                        {generatedCulinaryRestaurant?.title}
+                        {generatedNeshinePlace?.title}
                       </Text>
                       <Text
                         style={{
@@ -592,7 +584,7 @@ const HomeScreen = () => {
                           justifyContent: 'center',
                         }}
                       >
-                        {generatedCulinaryRestaurant?.description}
+                        {generatedNeshinePlace?.description}
                       </Text>
 
                       <View style={{
@@ -606,9 +598,9 @@ const HomeScreen = () => {
                       }}>
                         <TouchableOpacity
                           onPress={() => {
-                            setSelectedCulinaryRestaurat(generatedCulinaryRestaurant);
-                            setIsCulinaryMapRestaurantVisible(true);
-                            setSelectedCulinaryScreen('NeshineMap');
+                            setSelectedNeshinePlace(generatedNeshinePlace);
+                            setIsNeshineMapPlaceVisible(true);
+                            setSelectedNeshineScreen('NeshineMap');
                           }}
                           style={{
                             alignSelf: 'center',
@@ -644,7 +636,7 @@ const HomeScreen = () => {
 
                         <TouchableOpacity
                           onPress={() => {
-                            saveCulinaryRestaurant(generatedCulinaryRestaurant);
+                            saveNeshinePlace(generatedNeshinePlace);
                           }}
                           style={{
                             height: dimensions.width * 0.140,
@@ -655,11 +647,11 @@ const HomeScreen = () => {
                             justifyContent: 'center',
                             width: dimensions.width * 0.140,
                             borderColor: 'white',
-                            backgroundColor: isCulinaryRestaurantSaved(generatedCulinaryRestaurant) ? '#FDCC06' : 'transparent',
-                            borderWidth: !isCulinaryRestaurantSaved(generatedCulinaryRestaurant) ? dimensions.width * 0.003 : 0,
+                            backgroundColor: isNeshinePlaceSaved(generatedNeshinePlace) ? '#FDCC06' : 'transparent',
+                            borderWidth: !isNeshinePlaceSaved(generatedNeshinePlace) ? dimensions.width * 0.003 : 0,
                           }}>
                           <Image
-                            source={isCulinaryRestaurantSaved(generatedCulinaryRestaurant)
+                            source={isNeshinePlaceSaved(generatedNeshinePlace)
                               ? require('../assets/icons/blackInappIcons/savedIcon.png')
                               : require('../assets/icons/inappIcons/savedIcon.png')
                             }
@@ -675,7 +667,7 @@ const HomeScreen = () => {
 
                         <TouchableOpacity
                           onPress={() => {
-                            shareCulinaryRestaurant(generatedCulinaryRestaurant?.title)
+                            shareNeshinePlace(generatedNeshinePlace?.title)
                           }}
                           style={{
                             justifyContent: 'center',
@@ -712,9 +704,9 @@ const HomeScreen = () => {
                   </View>
                   <TouchableOpacity
                     onPress={() => {
-                      setSelectedCulinaryRestaurat(generatedCulinaryRestaurant);
-                      setGeneratedCulinaryRestaurant(null);
-                      setIsCulinaryMapRestaurantVisible(false);
+                      setSelectedNeshinePlace(generatedNeshinePlace);
+                      setGeneratedNeshinePlace(null);
+                      setIsNeshineMapPlaceVisible(false);
                     }}
                     style={{
                       alignSelf: 'center',
@@ -778,7 +770,7 @@ const HomeScreen = () => {
                       color: 'white',
                       textAlign: 'center',
                     }}>
-                    {selectedCategory?.title}
+                    {selectedNeshineCategory?.title}
                   </Text>
                   <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginLeft: dimensions.width * 0.07, }}>
                     <Text
@@ -803,7 +795,7 @@ const HomeScreen = () => {
                           opacity: 0.7,
                           textAlign: 'left',
                         }}>
-                        {culinaryDots}
+                        {neshineDots}
                       </Text>
                     </View>
                   </View>
@@ -821,7 +813,7 @@ const HomeScreen = () => {
                   <TouchableOpacity
                     disabled={true}
                     onPress={() => {
-                      handleGenerateRestaurant();
+                      handleGenerateShinePlace();
                     }}
                     style={{
                       alignSelf: 'center',
@@ -864,73 +856,77 @@ const HomeScreen = () => {
             </>
           )}
         </SafeAreaView>
-      ) : selectedCulinaryScreen === 'NeshineFavorites' ? (
-        <FavouritesScreen setSelectedCulinaryScreen={setSelectedCulinaryScreen} setSelectedCulinaryRestaurat={setSelectedCulinaryRestaurat} savedCulinaryRestaurats={savedCulinaryRestaurats} setSavedCulinaryRestaurats={setSavedCulinaryRestaurats} setIsCulinaryMapRestaurantVisible={setIsCulinaryMapRestaurantVisible} />
-      ) : selectedCulinaryScreen === 'NeshineMap' ? (
-        <NeshineMapScreen setSelectedCulinaryScreen={setSelectedCulinaryScreen} selectedCulinaryRestaurat={selectedCulinaryRestaurat} isCulinaryMapRestaurantVisible={isCulinaryMapRestaurantVisible} setIsCulinaryMapRestaurantVisible={setIsCulinaryMapRestaurantVisible} setSavedCulinaryRestaurats={setSavedCulinaryRestaurats} savedCulinaryRestaurats={savedCulinaryRestaurats} selectedCulinaryScreen={selectedCulinaryScreen} />
-      ) : selectedCulinaryScreen === 'GalleryScreen' ? (
-        <GalleryScreen setSelectedCulinaryScreen={setSelectedCulinaryScreen} galeryData={galeryData} setSavedCulinaryRestaurats={setSavedCulinaryRestaurats} savedCulinaryRestaurats={savedCulinaryRestaurats} />
-      ) : selectedCulinaryScreen === 'NeshineBlog' ? (
-        <BlogScreen setSelectedCulinaryScreen={setSelectedCulinaryScreen} setSavedCulinaryRestaurats={setSavedCulinaryRestaurats} savedCulinaryRestaurats={savedCulinaryRestaurats} />
-      ) : selectedCulinaryScreen === 'WelcomePage' ? (
-        <WelcomePageScreen setSelectedCulinaryScreen={setSelectedCulinaryScreen} setSavedCulinaryRestaurats={setSavedCulinaryRestaurats} savedCulinaryRestaurats={savedCulinaryRestaurats} />
-      ) : selectedCulinaryScreen === 'NeshineQuiz' ? (
-        <NeshineQuizzScreen setSelectedCulinaryScreen={setSelectedCulinaryScreen} selectedCulinaryScreen={selectedCulinaryScreen} isNeshineQuizStarted={isNeshineQuizStarted} setIsNeshineQuizStarted={setIsNeshineQuizStarted} />
+      ) : selectedNeshineScreen === 'NeshineFavorites' ? (
+        <NeshineFavouritesScreen setSelectedNeshineScreen={setSelectedNeshineScreen} setSelectedNeshinePlace={setSelectedNeshinePlace} savedNeshinePlaces={savedNeshinePlaces} setSavedNeshinePlaces={setSavedNeshinePlaces} setIsNeshineMapPlaceVisible={setIsNeshineMapPlaceVisible} />
+      ) : selectedNeshineScreen === 'NeshineMap' ? (
+        <NeshineMapScreen setSelectedNeshineScreen={setSelectedNeshineScreen} selectedNeshinePlace={selectedNeshinePlace} isNeshineMapPlaceVisible={isNeshineMapPlaceVisible} setIsNeshineMapPlaceVisible={setIsNeshineMapPlaceVisible} setSavedNeshinePlaces={setSavedNeshinePlaces} savedNeshinePlaces={savedNeshinePlaces} selectedNeshineScreen={selectedNeshineScreen} />
+      ) : selectedNeshineScreen === 'GalleryScreen' ? (
+        <GalleryScreen setSelectedNeshineScreen={setSelectedNeshineScreen} galeryData={galeryData} setSavedNeshinePlaces={setSavedNeshinePlaces} savedNeshinePlaces={savedNeshinePlaces} />
+      ) : selectedNeshineScreen === 'NeshineBlog' ? (
+        <NeshineBlogScreen setSelectedNeshineScreen={setSelectedNeshineScreen} setSavedNeshinePlaces={setSavedNeshinePlaces} savedNeshinePlaces={savedNeshinePlaces} />
+      ) : selectedNeshineScreen === 'WelcomePage' ? (
+        <WelcomePageScreen setSelectedNeshineScreen={setSelectedNeshineScreen} setSavedNeshinePlaces={setSavedNeshinePlaces} savedNeshinePlaces={savedNeshinePlaces} />
+      ) : selectedNeshineScreen === 'NeshineQuiz' ? (
+        <NeshineQuizzScreen setSelectedNeshineScreen={setSelectedNeshineScreen} selectedNeshineScreen={selectedNeshineScreen} isNeshineQuizStarted={isNeshineQuizStarted} setIsNeshineQuizStarted={setIsNeshineQuizStarted} />
+      ) : selectedNeshineScreen === 'LoadingNeshine' ? (
+        <LoadingNeshineScreen setSelectedNeshineScreen={setSelectedNeshineScreen} />
       ) : null}
 
-      <View
-        style={{
-          position: 'absolute',
-          bottom: dimensions.height * 0.055,
-          backgroundColor: '#0C0C0C',
-          height: dimensions.height * 0.08,
-          width: dimensions.width * 0.9,
-          borderColor: '#FDCC06',
-          borderWidth: dimensions.width * 0.003,
-          paddingHorizontal: dimensions.width * 0.034,
-          borderRadius: dimensions.width * 0.025,
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          alignSelf: 'center',
-          paddingVertical: dimensions.height * 0.007,
-          zIndex: 5000,
-          shadowColor: '#000',
-          shadowOffset: {
-            width: 0,
-            height: 3,
-          },
-          shadowOpacity: 0.28,
-          shadowRadius: 5,
-          elevation: 3,
-        }}
-      >
-        {bottomBtns.map((button, index) => (
-          <TouchableOpacity
-            key={button.id}
-            onPress={() => setSelectedCulinaryScreen(button.screen)}
-            style={{
-              paddingHorizontal: dimensions.height * 0.014,
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: selectedCulinaryScreen === button.screen ? '#FDCC06' : '#1E1E1E',
-              width: dimensions.height * 0.066,
-              height: dimensions.height * 0.066,
-              borderRadius: dimensions.height * 0.01,
-            }}
-          >
-            <Image
-              source={selectedCulinaryScreen === button.screen ? button.goldCulinaryIcon : button.whiteCulinaryIcon}
+      {selectedNeshineScreen !== 'LoadingNeshine' && (
+        <View
+          style={{
+            position: 'absolute',
+            bottom: dimensions.height * 0.055,
+            backgroundColor: '#0C0C0C',
+            height: dimensions.height * 0.08,
+            width: dimensions.width * 0.9,
+            borderColor: '#FDCC06',
+            borderWidth: dimensions.width * 0.003,
+            paddingHorizontal: dimensions.width * 0.034,
+            borderRadius: dimensions.width * 0.025,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            alignSelf: 'center',
+            paddingVertical: dimensions.height * 0.007,
+            zIndex: 5000,
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 0,
+              height: 3,
+            },
+            shadowOpacity: 0.28,
+            shadowRadius: 5,
+            elevation: 3,
+          }}
+        >
+          {bottomBtns.map((button, index) => (
+            <TouchableOpacity
+              key={button.id}
+              onPress={() => setSelectedNeshineScreen(button.screen)}
               style={{
-                width: dimensions.height * 0.025,
-                height: dimensions.height * 0.025,
-                textAlign: 'center'
+                paddingHorizontal: dimensions.height * 0.014,
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: selectedNeshineScreen === button.screen ? '#FDCC06' : '#1E1E1E',
+                width: dimensions.height * 0.066,
+                height: dimensions.height * 0.066,
+                borderRadius: dimensions.height * 0.01,
               }}
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
-        ))}
-      </View>
+            >
+              <Image
+                source={selectedNeshineScreen === button.screen ? button.goldCulinaryIcon : button.whiteCulinaryIcon}
+                style={{
+                  width: dimensions.height * 0.025,
+                  height: dimensions.height * 0.025,
+                  textAlign: 'center'
+                }}
+                resizeMode="contain"
+              />
+            </TouchableOpacity>
+          ))}
+        </View>
+      )}
     </View>
   );
 };

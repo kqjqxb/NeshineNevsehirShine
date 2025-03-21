@@ -6,10 +6,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const fontKarlaRegular = 'Karla-Regular';
-const fontKarlaLight = 'Karla-Light';
-const fontKarlaExtraLight = 'Karla-ExtraLight';
 
-const NeshineQuizzScreen = ({ setSelectedCulinaryScreen, selectedCulinaryScreen, isNeshineQuizStarted, setIsNeshineQuizStarted }) => {
+const NeshineQuizzScreen = ({ selectedNeshineScreen, isNeshineQuizStarted, setIsNeshineQuizStarted }) => {
   const [currentNeshineQuestionIndex, setCurrentNeshineQuestionIndex] = useState(0);
   const [dimensions, setDimensions] = useState(Dimensions.get('window'));
   const [selectedNeshineAnswer, setSelectedNeshineAnswer] = useState(null);
@@ -24,10 +22,9 @@ const NeshineQuizzScreen = ({ setSelectedCulinaryScreen, selectedCulinaryScreen,
   const isQuizAvailable = availableUntil === null;
 
   useEffect(() => {
-    // Shuffle and pick 5 random questions
     const shuffled = [...neshineQuestionsData].sort(() => Math.random() - 0.5);
     setRandomQuestionsData(shuffled.slice(0, 5));
-  }, [selectedCulinaryScreen]);
+  }, [selectedNeshineScreen]);
 
   const shareNeshineQuizResult = async () => {
     try {
@@ -107,7 +104,7 @@ const NeshineQuizzScreen = ({ setSelectedCulinaryScreen, selectedCulinaryScreen,
     const intervalId = setInterval(() => {
       setCurrentTime(Date.now());
       checkAvailability();
-    }, 60000); // update every minute
+    }, 60000);
 
     return () => clearInterval(intervalId);
   }, [isNeshineQuizFinished]);

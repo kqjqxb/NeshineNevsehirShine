@@ -2,26 +2,6 @@
   "migIndex": 1,
   "data": [
     {
-      "path": "src/assets/fonts/K2D-Bold.ttf",
-      "sha1": "a1c0d2ca862a2e6e95725c5b693da7b4f13c14ae"
-    },
-    {
-      "path": "src/assets/fonts/K2D-ExtraBold.ttf",
-      "sha1": "8fb212903ca76f1a33b130eaee1514859ce14ded"
-    },
-    {
-      "path": "src/assets/fonts/K2D-Medium.ttf",
-      "sha1": "fb3f0367528e94dde5f96fde52280fa70aa352f4"
-    },
-    {
-      "path": "src/assets/fonts/K2D-Regular.ttf",
-      "sha1": "0b9dc056d96e700bf4405e1e1e5f6b6a14d56d8e"
-    },
-    {
-      "path": "src/assets/fonts/K2D-SemiBold.ttf",
-      "sha1": "dc5eddeb063a9ac043ba101ae8b0afe9a75a814e"
-    },
-    {
       "path": "src/assets/fonts/Karla-Bold.ttf",
       "sha1": "c245d7154645d1791c428999cabdfb4a31a30975"
     },

@@ -1,8 +1,6 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState } from 'react';
 import {
   View,
-  Text,
   TouchableOpacity,
   Dimensions,
   Image,
@@ -11,11 +9,10 @@ import {
   Share,
 } from 'react-native';
 
-
 const GalleryScreen = ({ galeryData }) => {
   const [dimensions, setDimensions] = useState(Dimensions.get('window'));
 
-  const shareCulinaryBlog = async (title) => {
+  const shareNeshineGallery = async (title) => {
     try {
       await Share.share({
         message: `Watch beautiful photos about ${title} on the NeShine - Nevşehir Shine!`,
@@ -67,7 +64,7 @@ const GalleryScreen = ({ galeryData }) => {
 
             <TouchableOpacity
               onPress={() => {
-                shareCulinaryBlog(galElement?.title)
+                shareNeshineGallery(galElement?.title)
               }}
               style={{
                 padding: dimensions.width * 0.04,
@@ -103,10 +100,7 @@ const GalleryScreen = ({ galeryData }) => {
             </TouchableOpacity>
           </View>
         ))}
-
-
       </ScrollView>
-
     </SafeAreaView >
   );
 };

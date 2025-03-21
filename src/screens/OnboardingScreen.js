@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, FlatList, Animated, Text, TouchableOpacity, ImageBackground, Dimensions, Image, Platform } from 'react-native';
-import culinaryMelbourneOnboardingData from '../components/culinaryMelbourneOnboardingData';
+import neshineOnboardingData from '../components/neshineOnboardingData';
 import { useNavigation } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -9,7 +9,7 @@ const fontKarlaRegular = 'Karla-Regular';
 const OnboardingScreen = () => {
   const [dimensions, setDimensions] = useState(Dimensions.get('window'));
   const navigation = useNavigation();
-  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  const [currentNeshineSlideIndex, setCurrentSlideIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
   const slidesRef = useRef(null);
 
@@ -31,23 +31,23 @@ const OnboardingScreen = () => {
 
   const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
 
-  const scrollToTheNextCulinarySlide = () => {
-    if (currentSlideIndex < culinaryMelbourneOnboardingData.length - 1) {
-      slidesRef.current.scrollToIndex({ index: currentSlideIndex + 1 });
+  const scrollToTheNextNeshineSlide = () => {
+    if (currentNeshineSlideIndex < neshineOnboardingData.length - 1) {
+      slidesRef.current.scrollToIndex({ index: currentNeshineSlideIndex + 1 });
     } else {
-      navigation.navigate('Home');
+      navigation.replace('Home');
     }
   };
 
 
-  const renderCulinaryItem = ({ item }) => (
+  const renderNeshineItem = ({ item }) => (
     <View style={{ width: dimensions.width, flex: 1, justifyContent: 'space-between', alignItems: 'center' }} >
       <View style={{
-        width: dimensions.width,
+        justifyContent: 'center',
         height: dimensions.height * 0.5,
         alignItems: 'center',
         alignSelf: 'center',
-        justifyContent: 'center',
+        width: dimensions.width,
       }}>
         <Image
           resizeMode="stretch"
@@ -60,21 +60,21 @@ const OnboardingScreen = () => {
       </View>
 
       <View style={{
+        alignItems: 'center',
         position: 'absolute',
-        alignSelf: 'center',
-        bottom: 0,
         borderTopRightRadius: dimensions.width * 0.035,
         borderTopLeftRadius: dimensions.width * 0.035,
-        alignItems: 'center',
         height: dimensions.height * 0.4321,
-        width: dimensions.width,
+        bottom: 0,
         height: dimensions.height * 0.55,
+        width: dimensions.width,
+        alignSelf: 'center',
         alignSelf: 'center',
         backgroundColor: '#181818',
-        zIndex: 1,
-        shadowColor: '#FDCC06',
         shadowOffset: { width: 0, height: -dimensions.height * 0.0019 },
+        shadowColor: '#FDCC06',
         shadowOpacity: 1,
+        zIndex: 1,
         shadowRadius: dimensions.height * 0.0001,
         elevation: 10,
       }}>
@@ -93,12 +93,12 @@ const OnboardingScreen = () => {
         <Text
           style={{
             color: '#fff',
-            fontSize: dimensions.width * 0.043,
-            marginTop: dimensions.height * 0.007,
             paddingHorizontal: dimensions.width * 0.1,
+            marginTop: dimensions.height * 0.007,
             top: dimensions.height * 0.019,
             textAlign: 'center',
             fontFamily: fontKarlaRegular,
+            fontSize: dimensions.width * 0.043,
           }}>
           {item.description}
         </Text>
@@ -112,8 +112,8 @@ const OnboardingScreen = () => {
     >
       <View style={{ display: 'flex' }}>
         <FlatList
-          data={culinaryMelbourneOnboardingData}
-          renderItem={renderCulinaryItem}
+          data={neshineOnboardingData}
+          renderItem={renderNeshineItem}
           bounces={false}
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -131,9 +131,9 @@ const OnboardingScreen = () => {
 
       <TouchableOpacity
         onPress={() => {
-          if (currentSlideIndex === culinaryMelbourneOnboardingData.length - 1) {
+          if (currentNeshineSlideIndex === neshineOnboardingData.length - 1) {
             navigation.navigate('Home');
-          } else scrollToTheNextCulinarySlide();
+          } else scrollToTheNextNeshineSlide();
         }}
         style={{
           bottom: dimensions.height * 0.19,
@@ -166,7 +166,7 @@ const OnboardingScreen = () => {
             textAlign: 'center',
             fontWeight: 600
           }}>
-          { currentSlideIndex === culinaryMelbourneOnboardingData.length - 1 ? 'Get Started' : 'Next →'}
+          { currentNeshineSlideIndex === neshineOnboardingData.length - 1 ? 'Get Started' : 'Next →'}
         </Text>
       </TouchableOpacity>
     </View>

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import {
     View,
     Text,
@@ -21,44 +21,43 @@ import localDelightsData from '../components/localDelightsData';
 const allCulinaryRestaurantsData = [...mysticWondersData, ...goldenHeritageData, ...sunsetSerenityData, ...localDelightsData];
 
 const fontKarlaRegular = 'Karla-Regular';
-const fontKarlaLight = 'Karla-Light';
 const fontKarlaExtraLight = 'Karla-ExtraLight';
 
-const NeshineMapScreen = ({ selectedCulinaryRestaurat, setSelectedCulinaryScreen, isCulinaryMapRestaurantVisible, setIsCulinaryMapRestaurantVisible, setSavedCulinaryRestaurats, savedCulinaryRestaurats }) => {
+const NeshineMapScreen = ({ selectedNeshinePlace, setSelectedNeshineScreen, isNeshineMapPlaceVisible, setIsNeshineMapPlaceVisible, setSavedNeshinePlaces, savedNeshinePlaces }) => {
     const [dimensions, setDimensions] = useState(Dimensions.get('window'));
 
-    const shareCulinaryRestaurant = async (title) => {
+    const shareNeshinePlace = async (title) => {
         try {
-            await Share.share({
-                message: `Let's go to the restaurant ${title}! I found it on the Culinary Crovvn - Melbourn!`,
-            });
+          await Share.share({
+            message: `I like ${title}! Join NeShine - Nevşehir Shine!`,
+          });
         } catch (error) {
-            console.error('Error share:', error);
+          console.error('Error share:', error);
         }
+      };
+
+    const isNeshinePlaceSaved = (thisRest) => {
+        return savedNeshinePlaces.some((kn) => kn.id === thisRest?.id);
     };
 
-    const isCulinaryMapRestSaved = (thisRest) => {
-        return savedCulinaryRestaurats.some((kn) => kn.id === thisRest?.id);
-    };
-
-    const saveNeshineMapPlace = async (rest) => {
+    const saveNeshineMapPlace = async (neshPlace) => {
         try {
-            const savedMapRest = await AsyncStorage.getItem('savedCulinaryRestaurats');
-            const parsedMapRests = savedMapRest ? JSON.parse(savedMapRest) : [];
+            const savedTheseNeshinePlaces = await AsyncStorage.getItem('savedNeshinePlaces');
+            const parsedNeshinePlaces = savedTheseNeshinePlaces ? JSON.parse(savedTheseNeshinePlaces) : [];
 
-            const thisMapRestIndex = parsedMapRests.findIndex((r) => r.id === rest.id);
+            const thisNeshinePlaceIndex = parsedNeshinePlaces.findIndex((r) => r.id === neshPlace.id);
 
-            if (thisMapRestIndex === -1) {
-                const updatedMapSavedRests = [rest, ...parsedMapRests];
-                await AsyncStorage.setItem('savedCulinaryRestaurats', JSON.stringify(updatedMapSavedRests));
-                setSavedCulinaryRestaurats(updatedMapSavedRests);
+            if (thisNeshinePlaceIndex === -1) {
+                const updatedNeshinePlaces = [neshPlace, ...parsedNeshinePlaces];
+                await AsyncStorage.setItem('savedNeshinePlaces', JSON.stringify(updatedNeshinePlaces));
+                setSavedNeshinePlaces(updatedNeshinePlaces);
             } else {
-                const updatedMapSavedRests = parsedMapRests.filter((r) => r.id !== rest.id);
-                await AsyncStorage.setItem('savedCulinaryRestaurats', JSON.stringify(updatedMapSavedRests));
-                setSavedCulinaryRestaurats(updatedMapSavedRests);
+                const updatedNeshinePlaces = parsedNeshinePlaces.filter((r) => r.id !== neshPlace.id);
+                await AsyncStorage.setItem('savedNeshinePlaces', JSON.stringify(updatedNeshinePlaces));
+                setSavedNeshinePlaces(updatedNeshinePlaces);
             }
         } catch (error) {
-            console.error('error of save/delete map rest:', error);
+            console.error('error of save/delete neshine place:', error);
         }
     };
 
@@ -73,8 +72,8 @@ const NeshineMapScreen = ({ selectedCulinaryRestaurat, setSelectedCulinaryScreen
                     zIndex: 50
                 }}
                 region={{
-                    latitude: selectedCulinaryRestaurat ? selectedCulinaryRestaurat.coordinates.latitude : allCulinaryRestaurantsData[0].coordinates.latitude,
-                    longitude: selectedCulinaryRestaurat ? selectedCulinaryRestaurat.coordinates.longitude : allCulinaryRestaurantsData[0].coordinates.longitude,
+                    latitude: selectedNeshinePlace ? selectedNeshinePlace.coordinates.latitude : allCulinaryRestaurantsData[0].coordinates.latitude,
+                    longitude: selectedNeshinePlace ? selectedNeshinePlace.coordinates.longitude : allCulinaryRestaurantsData[0].coordinates.longitude,
                     latitudeDelta: 0.01,
                     longitudeDelta: 0.01,
                 }}
@@ -86,11 +85,11 @@ const NeshineMapScreen = ({ selectedCulinaryRestaurat, setSelectedCulinaryScreen
                         coordinate={location.coordinates}
                         title={location.title}
                         description={location.description}
-                        pinColor={selectedCulinaryRestaurat && location.coordinates === selectedCulinaryRestaurat.coordinates ? "#181818" : "#FDCC06"}
+                        pinColor={selectedNeshinePlace && location.coordinates === selectedNeshinePlace.coordinates ? "#181818" : "#FDCC06"}
                     />
                 ))}
             </MapView>
-            {isCulinaryMapRestaurantVisible && (
+            {isNeshineMapPlaceVisible && (
                 <View style={{
                     width: dimensions.width * 0.9,
                     alignSelf: 'center',
@@ -118,7 +117,7 @@ const NeshineMapScreen = ({ selectedCulinaryRestaurat, setSelectedCulinaryScreen
                         borderWidth: dimensions.width * 0.003,
                     }}>
                         <Image
-                            source={selectedCulinaryRestaurat?.image}
+                            source={selectedNeshinePlace?.image}
                             style={{
                                 width: '100%',
                                 borderTopLeftRadius: dimensions.width * 0.037,
@@ -144,7 +143,7 @@ const NeshineMapScreen = ({ selectedCulinaryRestaurat, setSelectedCulinaryScreen
                                     justifyContent: 'center',
                                 }}
                             >
-                                {selectedCulinaryRestaurat?.title}
+                                {selectedNeshinePlace?.title}
                             </Text>
                             <Text
                                 style={{
@@ -159,7 +158,7 @@ const NeshineMapScreen = ({ selectedCulinaryRestaurat, setSelectedCulinaryScreen
                                     justifyContent: 'center',
                                 }}
                             >
-                                {selectedCulinaryRestaurat?.description}
+                                {selectedNeshinePlace?.description}
                             </Text>
 
                             <View style={{
@@ -173,7 +172,7 @@ const NeshineMapScreen = ({ selectedCulinaryRestaurat, setSelectedCulinaryScreen
                             }}>
                                 <TouchableOpacity
                                     onPress={() => {
-                                        setIsCulinaryMapRestaurantVisible(false);
+                                        setIsNeshineMapPlaceVisible(false);
                                     }}
                                     style={{
                                         alignSelf: 'center',
@@ -209,7 +208,7 @@ const NeshineMapScreen = ({ selectedCulinaryRestaurat, setSelectedCulinaryScreen
 
                                 <TouchableOpacity
                                     onPress={() => {
-                                        saveNeshineMapPlace(selectedCulinaryRestaurat);
+                                        saveNeshineMapPlace(selectedNeshinePlace);
                                     }}
                                     style={{
                                         height: dimensions.width * 0.140,
@@ -220,11 +219,11 @@ const NeshineMapScreen = ({ selectedCulinaryRestaurat, setSelectedCulinaryScreen
                                         justifyContent: 'center',
                                         width: dimensions.width * 0.140,
                                         borderColor: 'white',
-                                        backgroundColor: isCulinaryMapRestSaved(selectedCulinaryRestaurat) ? '#FDCC06' : 'transparent',
-                                        borderWidth: !isCulinaryMapRestSaved(selectedCulinaryRestaurat) ? dimensions.width * 0.003 : 0,
+                                        backgroundColor: isNeshinePlaceSaved(selectedNeshinePlace) ? '#FDCC06' : 'transparent',
+                                        borderWidth: !isNeshinePlaceSaved(selectedNeshinePlace) ? dimensions.width * 0.003 : 0,
                                     }}>
                                     <Image
-                                        source={isCulinaryMapRestSaved(selectedCulinaryRestaurat)
+                                        source={isNeshinePlaceSaved(selectedNeshinePlace)
                                             ? require('../assets/icons/blackInappIcons/savedIcon.png')
                                             : require('../assets/icons/inappIcons/savedIcon.png')
                                         }
@@ -240,7 +239,7 @@ const NeshineMapScreen = ({ selectedCulinaryRestaurat, setSelectedCulinaryScreen
 
                                 <TouchableOpacity
                                     onPress={() => {
-                                        shareCulinaryRestaurant(selectedCulinaryRestaurat?.title)
+                                        shareNeshinePlace(selectedNeshinePlace?.title)
                                     }}
                                     style={{
                                         justifyContent: 'center',

@@ -13,12 +13,10 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 
 const fontKarlaRegular = 'Karla-Regular';
-const fontKarlaLight = 'Karla-Light';
-const fontKarlaExtraLight = 'Karla-ExtraLight';
 
-const neshineAppLink = ''
+const neshineAppLink = 'https://apps.apple.com/us/app/neshine-nev%C5%9Fehir-shine/id6743625816'
 
-const WelcomePageScreen = ({ setSelectedCulinaryScreen }) => {
+const WelcomePageScreen = ({ setSelectedNeshineScreen }) => {
   const [dimensions, setDimensions] = useState(Dimensions.get('window'));
 
   const shareApp = async () => {
@@ -41,7 +39,7 @@ const WelcomePageScreen = ({ setSelectedCulinaryScreen }) => {
         source={require('../assets/images/welcomeImage.png')}
         style={{
           width: dimensions.width,
-          height: dimensions.height * 0.3,
+          height: dimensions.height * 0.25,
         }}
         resizeMode='contain'
       />
@@ -55,7 +53,7 @@ const WelcomePageScreen = ({ setSelectedCulinaryScreen }) => {
           alignSelf: 'flex-start',
           fontWeight: 600,
           paddingVertical: dimensions.height * 0.014,
-          marginTop: -dimensions.height * 0.016,
+          marginTop: -dimensions.height * 0.019,
           paddingHorizontal: dimensions.width * 0.07,
         }}>
         Welcome to Nevşehir: The Heart of Cappadocia 🌟
@@ -78,7 +76,7 @@ const WelcomePageScreen = ({ setSelectedCulinaryScreen }) => {
       </Text>
       <TouchableOpacity
         onPress={() => {
-          setSelectedCulinaryScreen('Home');
+          setSelectedNeshineScreen('Home');
         }}
         style={{
           elevation: 5,
