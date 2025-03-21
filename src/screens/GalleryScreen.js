@@ -15,7 +15,7 @@ const GalleryScreen = ({ galeryData }) => {
   const shareNeshineGallery = async (title) => {
     try {
       await Share.share({
-        message: `Watch beautiful photos about ${title} on the NeShine - Nevşehir Shine!`,
+        message: `Watch beautiful photos of ${title} on the NeShine - Nevşehir Shine!`,
       });
     } catch (error) {
       console.error('Error share:', error);

@@ -22,7 +22,10 @@ const NeshineQuizzScreen = ({ selectedNeshineScreen, isNeshineQuizStarted, setIs
   const isQuizAvailable = availableUntil === null;
 
   useEffect(() => {
-    const shuffled = [...neshineQuestionsData].sort(() => Math.random() - 0.5);
+    const uniqueQuestions = Array.from(
+      new Map(neshineQuestionsData.map(q => [q.id, q])).values()
+    );
+    const shuffled = uniqueQuestions.sort(() => Math.random() - 0.5);
     setRandomQuestionsData(shuffled.slice(0, 5));
   }, [selectedNeshineScreen]);
 
@@ -258,6 +261,7 @@ const NeshineQuizzScreen = ({ selectedNeshineScreen, isNeshineQuizStarted, setIs
               onPress={() => {
                 setSelectedNeshineAnswer(answ);
               }}
+              disabled={!isNeshineReplyButtonActive}
               key={index} style={{
                 alignSelf: 'center',
                 alignItems: 'center',
@@ -286,11 +290,10 @@ const NeshineQuizzScreen = ({ selectedNeshineScreen, isNeshineQuizStarted, setIs
                     fontFamily: fontKarlaRegular,
                     color: 'white',
                     fontWeight: 700,
-                    paddingVertical: dimensions.height * 0.01,
                     textAlign: 'center',
                     alignSelf: 'center',
                     marginLeft: dimensions.width * 0.02,
-                    maxWidth: dimensions.width * 0.7,
+                    maxWidth: dimensions.width * 0.84,
                     paddingVertical: dimensions.height * 0.02,
                   }}
                 >
@@ -307,7 +310,7 @@ const NeshineQuizzScreen = ({ selectedNeshineScreen, isNeshineQuizStarted, setIs
               borderRadius: dimensions.width * 0.025,
               alignSelf: 'center',
               position: 'absolute',
-              bottom: dimensions.height * 0.12,
+              bottom: dimensions.height * 0.1,
             }}>
             <LinearGradient
               colors={['#FFF0B5', '#FDCC06']}
