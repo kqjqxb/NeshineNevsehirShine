@@ -79,7 +79,7 @@ android {
 
     namespace "com.neshinenevsehirshine"
     defaultConfig {
-        applicationId "com.neshinenevsehirshine"
+        applicationId "oyunları.nesine.indir.com"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

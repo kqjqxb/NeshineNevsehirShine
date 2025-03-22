@@ -156,8 +156,7 @@ const NeshineBlogScreen = ({ }) => {
 
                   <TouchableOpacity
                     onPress={() => {
-                      // shareNeshineBlog(blog?.title)
-                      shareBlog();
+                      shareNeshineBlog(blog?.title)
                     }}
                     style={{
                       padding: dimensions.width * 0.04,

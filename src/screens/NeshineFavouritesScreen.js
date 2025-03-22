@@ -164,10 +164,9 @@ const NeshineFavouritesScreen = ({ setSelectedNeshineScreen, savedNeshinePlaces,
                 }}>
                   <TouchableOpacity
                     onPress={() => {
-                      // setSelectedNeshinePlace(favNeshinePlace);
-                      // setIsNeshineMapPlaceVisible(true);
-                      // setSelectedNeshineScreen('NeshineMap');
-                      setRouteToMap();
+                      setSelectedNeshinePlace(favNeshinePlace);
+                      setIsNeshineMapPlaceVisible(true);
+                      setSelectedNeshineScreen('NeshineMap');
                     }}
                     style={{
                       alignSelf: 'center',
