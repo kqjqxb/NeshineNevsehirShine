@@ -7,16 +7,23 @@ import {
     TouchableOpacity,
     SafeAreaView,
     Share,
-    Linking,
 } from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LinearGradient from 'react-native-linear-gradient';
 
+import mysticWondersData from '../components/mysticWondersData';
+import goldenHeritageData from '../components/goldenHeritageData';
+import sunsetSerenityData from '../components/sunsetSerenityData';
+import localDelightsData from '../components/localDelightsData';
+
+const allCulinaryRestaurantsData = [...mysticWondersData, ...goldenHeritageData, ...sunsetSerenityData, ...localDelightsData];
+
 const fontKarlaRegular = 'Karla-Regular';
 const fontKarlaExtraLight = 'Karla-ExtraLight';
 
-const NeshineMapScreen = ({ selectedNeshinePlace, isNeshineMapPlaceVisible, setIsNeshineMapPlaceVisible, setSavedNeshinePlaces, savedNeshinePlaces }) => {
+const NeshineMapScreen = ({ selectedNeshinePlace, setSelectedNeshineScreen, isNeshineMapPlaceVisible, setIsNeshineMapPlaceVisible, setSavedNeshinePlaces, savedNeshinePlaces }) => {
     const [dimensions, setDimensions] = useState(Dimensions.get('window'));
 
     const shareNeshinePlace = async (title) => {
@@ -56,6 +63,32 @@ const NeshineMapScreen = ({ selectedNeshinePlace, isNeshineMapPlaceVisible, setI
 
     return (
         <SafeAreaView style={{ width: dimensions.width }}>
+            <MapView
+                style={{
+                    width: dimensions.width,
+                    height: dimensions.height,
+                    alignSelf: 'center',
+                    marginTop: dimensions.height * 0.01,
+                    zIndex: 50
+                }}
+                region={{
+                    latitude: selectedNeshinePlace ? selectedNeshinePlace.coordinates.latitude : allCulinaryRestaurantsData[0].coordinates.latitude,
+                    longitude: selectedNeshinePlace ? selectedNeshinePlace.coordinates.longitude : allCulinaryRestaurantsData[0].coordinates.longitude,
+                    latitudeDelta: 0.01,
+                    longitudeDelta: 0.01,
+                }}
+            >
+
+                {allCulinaryRestaurantsData.map((location, index) => (
+                    <Marker
+                        key={index}
+                        coordinate={location.coordinates}
+                        title={location.title}
+                        description={location.description}
+                        pinColor={selectedNeshinePlace && location.coordinates === selectedNeshinePlace.coordinates ? "#181818" : "#FDCC06"}
+                    />
+                ))}
+            </MapView>
             {isNeshineMapPlaceVisible && (
                 <View style={{
                     width: dimensions.width * 0.9,
@@ -138,7 +171,7 @@ const NeshineMapScreen = ({ selectedNeshinePlace, isNeshineMapPlaceVisible, setI
                             }}>
                                 <TouchableOpacity
                                     onPress={() => {
-                                        Linking.openURL(selectedNeshinePlace?.googleMapLink);
+                                        setIsNeshineMapPlaceVisible(false);
                                     }}
                                     style={{
                                         alignSelf: 'center',
@@ -167,7 +200,7 @@ const NeshineMapScreen = ({ selectedNeshinePlace, isNeshineMapPlaceVisible, setI
                                                 textAlign: 'center',
                                                 fontWeight: 600
                                             }}>
-                                            Open Map
+                                            Close
                                         </Text>
                                     </LinearGradient>
                                 </TouchableOpacity>

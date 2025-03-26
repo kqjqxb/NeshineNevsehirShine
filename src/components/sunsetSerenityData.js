@@ -8,6 +8,7 @@ export default [
             longitude: 34.8748,
         },
         image: require('../assets/images/neshinePlacesImages/placeImage7.png'),
+        googleMapLink: 'https://maps.app.goo.gl/k8Da4meapJayJVZ86',
     },
     {
         id: 8,
@@ -18,6 +19,7 @@ export default [
             longitude: 34.8259,
         },
         image: require('../assets/images/neshinePlacesImages/placeImage8.png'),
+        googleMapLink: 'https://maps.app.goo.gl/4exFnUF5PJGu85ZT6',
     },
     {
         id: 9,
@@ -28,5 +30,6 @@ export default [
             longitude: 34.8839,
         },
         image: require('../assets/images/neshinePlacesImages/placeImage9.png'),
+        googleMapLink: 'https://maps.app.goo.gl/U1R965gEBduVqpJg7',
     },
 ]
